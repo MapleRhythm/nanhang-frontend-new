@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>安全防御</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+      background: #ffffff;
+      color: #1f2937;
+    }
+    .page {
+      height: 100%;
+      display: grid;
+      grid-template-rows: 3fr 2fr;
+    }
+    .section {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 8px;
+    }
+    .section + .section { border-top: 1px dashed #cbd5e1; }
+    .bottom-split {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 4.5fr 5.5fr;
+      gap: 12px;
+    }
+    .split-card {
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      background: #f8fafc;
+      padding: 14px;
+      min-height: 120px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 6px;
+    }
+    h2 { margin: 0; font-size: 20px; color: #111827; }
+    h3 { margin: 0; font-size: 16px; color: #111827; }
+    p { margin: 0; font-size: 14px; line-height: 1.6; color: #6b7280; max-width: 60ch; }
+    @media (max-width: 520px) {
+      .bottom-split { grid-template-columns: 1fr; }
+      .section { padding: 16px; }
+      h2 { font-size: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="section">
+      <h2>安全防御 - 上部区域</h2>
+      <p>用于展示实时防护态势、威胁等级与响应状态等信息。</p>
+    </section>
+    <section class="section">
+      <h2>安全防御 - 下部区域</h2>
+      <div class="bottom-split">
+        <article class="split-card">
+          <h3>左侧区域</h3>
+          <p>用于展示攻击分析与威胁事件明细。</p>
+        </article>
+        <article class="split-card">
+          <h3>右侧区域</h3>
+          <p>用于展示处置记录与策略优化建议。</p>
+        </article>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

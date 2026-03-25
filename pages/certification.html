@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>可信安全认证</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+      background: #ffffff;
+      color: #1f2937;
+    }
+
+    .page {
+      height: 100%;
+      display: grid;
+      grid-template-rows: 3fr 2fr;
+    }
+
+    .section {
+      padding: 16px;
+      min-height: 0;
+    }
+
+    .section + .section {
+      border-top: 1px dashed #cbd5e1;
+    }
+
+    .image-wrap {
+      width: 100%;
+      height: 100%;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #f8fafc;
+    }
+
+    .image-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .bottom-layout {
+      display: grid;
+      grid-template-columns: 4.5fr 5.5fr;
+      gap: 16px;
+      height: 100%;
+      min-height: 0;
+    }
+
+    .left-panel {
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      background: #f9fafb;
+      padding: 14px;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 12px;
+      min-height: 0;
+    }
+
+    .mode-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .mode-btn {
+      border: 1px solid #0f5f82;
+      border-radius: 8px;
+      background: #186487;
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: 600;
+      padding: 12px 10px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    }
+
+    .mode-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(24, 100, 135, 0.25);
+    }
+
+    .mode-btn.is-active {
+      background: #0d4f6d;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+    }
+
+    .flow-wrap {
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      background: #ffffff;
+      padding: 10px;
+      min-height: 0;
+      overflow: hidden;
+      display: flex;
+    }
+
+    .flow-svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .flow-base {
+      fill: none;
+      stroke: #8ab8de;
+      stroke-width: 20;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .flow-active {
+      fill: none;
+      stroke: #2563eb;
+      stroke-width: 30;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 0 4px rgba(37, 99, 235, 0.6));
+    }
+
+    .flow-node {
+      fill: #ffffff;
+      stroke: #93a4b5;
+      stroke-width: 3;
+      transition: fill 0.3s ease, stroke 0.3s ease, r 0.3s ease;
+    }
+
+    .flow-node.is-visited {
+      fill: #ffffff;
+      stroke: #2563eb;
+    }
+
+    .flow-node.is-active {
+      fill: #ffffff;
+      stroke: #1d4ed8;
+      stroke-width: 4;
+    }
+
+    .flow-label {
+      fill: #111827;
+      font-size: 24px;
+      font-weight: 600;
+      user-select: none;
+    }
+
+    .flow-label-small {
+      fill: #111827;
+      font-size: 22px;
+      font-weight: 600;
+      user-select: none;
+    }
+
+    .flow-status {
+      margin: 0;
+      min-height: 22px;
+      font-size: 14px;
+      color: #1d4ed8;
+      font-weight: 600;
+    }
+
+    .right-panel {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      min-height: 0;
+    }
+
+    .log-box {
+      border: 1px solid #111827;
+      border-radius: 10px;
+      background: #05070a;
+      color: #3cff84;
+      padding: 12px;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      min-height: 0;
+      overflow: hidden;
+      font-family: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+
+    .log-title {
+      margin: 0;
+      font-size: 16px;
+      color: #7dffab;
+      border-bottom: 1px solid #1f2937;
+      padding-bottom: 8px;
+    }
+
+    .log-content {
+      margin: 10px 0 0;
+      padding-left: 16px;
+      font-size: 12px;
+      line-height: 1.6;
+      overflow: auto;
+      white-space: pre-wrap;
+    }
+
+    @media (max-width: 1000px) {
+      .bottom-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .right-panel {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .mode-buttons {
+        grid-template-columns: 1fr;
+      }
+
+      .flow-label {
+        font-size: 19px;
+      }
+
+      .flow-label-small {
+        font-size: 17px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="section">
+      <div class="image-wrap">
+        <img src="../assets/renzheng.png" alt="认证示意图" />
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="bottom-layout">
+        <div class="left-panel">
+          <div class="mode-buttons">
+            <button class="mode-btn" type="button" data-mode="centralized">集中式认证</button>
+            <button class="mode-btn" type="button" data-mode="distributed">分布式认证</button>
+          </div>
+
+          <div class="flow-wrap">
+            <svg class="flow-svg" viewBox="0 0 900 320" xmlns="http://www.w3.org/2000/svg" aria-label="认证流程图">
+              <path class="flow-base" d="M50 175 L375 175" />
+              <path class="flow-base" d="M375 175 C455 175 455 95 560 95 L700 95" />
+              <path class="flow-base" d="M375 175 C455 175 455 255 560 255 L700 255" />
+
+              <path id="active-seg-1" class="flow-active" d="M50 175 L190 175" />
+              <path id="active-seg-2" class="flow-active" d="M190 175 L375 175" />
+              <path id="active-seg-top" class="flow-active" d="M375 175 C455 175 455 95 560 95 L700 95" />
+              <path id="active-seg-bottom" class="flow-active" d="M375 175 C455 175 455 255 560 255 L700 255" />
+
+              <circle id="node-issue" class="flow-node" cx="190" cy="175" r="10" />
+              <circle id="node-request" class="flow-node" cx="375" cy="175" r="10" />
+              <circle id="node-distributed" class="flow-node" cx="700" cy="95" r="10" />
+              <circle id="node-centralized" class="flow-node" cx="700" cy="255" r="10" />
+
+              <text class="flow-label" x="125" y="225">证书颁发</text>
+              <text class="flow-label" x="260" y="225">无人机认证请求</text>
+              <text class="flow-label-small" x="560" y="80">分布式认证</text>
+              <text class="flow-label-small" x="560" y="286">集中式认证</text>
+            </svg>
+          </div>
+
+          <p class="flow-status" id="flow-status">点击上方按钮，开始认证流程演示</p>
+        </div>
+
+        <div class="right-panel">
+          <article class="log-box">
+            <h3 class="log-title">集中式认证日志</h3>
+            <ul class="log-content">
+              <li>[22:33:10] 认证中心连接成功</li>
+              <li>[22:33:14] 接收设备证书请求 #A1024</li>
+              <li>[22:33:16] 证书校验通过，开始签发</li>
+              <li>[22:33:21] 签发完成，已回传认证结果</li>
+            </ul>
+          </article>
+          <article class="log-box">
+            <h3 class="log-title">分布式认证日志</h3>
+            <ul class="log-content">
+              <li>[22:33:11] 共识节点已就绪，共 8 节点</li>
+              <li>[22:33:15] 提交认证交易 tx:0x8f4...aa1</li>
+              <li>[22:33:20] 区块确认高度 +1，状态有效</li>
+              <li>[22:33:24] 认证结果广播至边缘网关</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      const statusEl = document.getElementById('flow-status');
+      const buttons = document.querySelectorAll('.mode-btn');
+      const paths = {
+        seg1: document.getElementById('active-seg-1'),
+        seg2: document.getElementById('active-seg-2'),
+        top: document.getElementById('active-seg-top'),
+        bottom: document.getElementById('active-seg-bottom')
+      };
+      const nodes = {
+        issue: document.getElementById('node-issue'),
+        request: document.getElementById('node-request'),
+        distributed: document.getElementById('node-distributed'),
+        centralized: document.getElementById('node-centralized')
+      };
+
+      const PAUSE_MS = 900;
+      const NODE_BASE_R = 10;
+      const NODE_ACTIVE_R = 17;
+      const DURATION_MS = {
+        seg1: 1300,
+        seg2: 1300,
+        branch: 1500
+      };
+
+      let animationToken = 0;
+
+      function sleep(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+      }
+
+      function setButtonState(mode) {
+        buttons.forEach((button) => {
+          button.classList.toggle('is-active', button.dataset.mode === mode);
+        });
+      }
+
+      function initPath(path) {
+        const total = path.getTotalLength();
+        path.dataset.total = String(total);
+        path.style.transition = 'none';
+        path.style.strokeDasharray = String(total);
+        path.style.strokeDashoffset = String(total);
+      }
+
+      function resetPaths() {
+        Object.values(paths).forEach(initPath);
+      }
+
+      function resetNodes() {
+        Object.values(nodes).forEach((node) => {
+          node.classList.remove('is-active', 'is-visited');
+          node.setAttribute('r', String(NODE_BASE_R));
+        });
+      }
+
+      function revealPath(path, duration) {
+        return new Promise((resolve) => {
+          path.style.transition = 'none';
+          path.style.strokeDashoffset = path.dataset.total;
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              path.style.transition = 'stroke-dashoffset ' + duration + 'ms linear';
+              path.style.strokeDashoffset = '0';
+            });
+          });
+          window.setTimeout(resolve, duration + 40);
+        });
+      }
+
+      async function pauseAtNode(node, label, token) {
+        if (token !== animationToken) {
+          return;
+        }
+        node.classList.add('is-visited', 'is-active');
+        node.setAttribute('r', String(NODE_ACTIVE_R));
+        statusEl.textContent = '已到达环节：' + label;
+        await sleep(PAUSE_MS);
+        if (token !== animationToken) {
+          return;
+        }
+        node.classList.remove('is-active');
+        node.setAttribute('r', String(NODE_BASE_R));
+      }
+
+      async function runFlow(mode) {
+        animationToken += 1;
+        const token = animationToken;
+
+        setButtonState(mode);
+        resetPaths();
+        resetNodes();
+
+        const terminalKey = mode === 'distributed' ? 'distributed' : 'centralized';
+        const terminalLabel = mode === 'distributed' ? '分布式认证' : '集中式认证';
+
+        statusEl.textContent = '流程启动：' + terminalLabel;
+
+        await revealPath(paths.seg1, DURATION_MS.seg1);
+        await pauseAtNode(nodes.issue, '证书颁发', token);
+        if (token !== animationToken) return;
+
+        await revealPath(paths.seg2, DURATION_MS.seg2);
+        await pauseAtNode(nodes.request, '无人机认证请求', token);
+        if (token !== animationToken) return;
+
+        await revealPath(mode === 'distributed' ? paths.top : paths.bottom, DURATION_MS.branch);
+        await pauseAtNode(nodes[terminalKey], terminalLabel, token);
+        if (token !== animationToken) return;
+
+        statusEl.textContent = '流程完成：' + terminalLabel;
+      }
+
+      buttons.forEach((button) => {
+        button.addEventListener('click', function () {
+          runFlow(button.dataset.mode);
+        });
+      });
+
+      resetPaths();
+      resetNodes();
+    })();
+  </script>
+</body>
+</html>

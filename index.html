@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>可信安全平台</title>
+  <style>
+    :root {
+      --bg-page: #f8fafc;
+      --bg-panel: #ffffff;
+      --border: #e5e7eb;
+      --text-main: #1f2937;
+      --text-sub: #6b7280;
+      --accent-soft: #ccfbf1;
+      --shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+      background:
+        radial-gradient(circle at 10% 10%, #eef6ff 0%, rgba(238, 246, 255, 0) 45%),
+        radial-gradient(circle at 90% 90%, #f2fcfa 0%, rgba(242, 252, 250, 0) 40%),
+        var(--bg-page);
+      color: var(--text-main);
+    }
+
+    .app {
+      width: min(1800px, 96vw);
+      margin: 28px auto;
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: 1fr 8fr;
+      min-height: calc(95vh - 53.2px);
+      overflow: hidden;
+    }
+
+    .sidebar {
+      border-right: 1px solid var(--border);
+      padding: 20px 16px;
+      background: #fcfdff;
+    }
+
+    .brand {
+      font-size: 14px;
+      letter-spacing: 0.08em;
+      color: var(--text-sub);
+      margin: 0 0 14px;
+      text-transform: uppercase;
+    }
+
+    .nav,
+    .subnav {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .subnav {
+      margin-top: 6px;
+      padding-left: 10px;
+      border-left: 1px dashed #d1d5db;
+      display: none;
+    }
+
+    .subnav.is-open {
+      display: block;
+    }
+
+    .nav-button,
+    .subnav-button {
+      width: 100%;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-main);
+      text-align: left;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .nav-button {
+      font-size: 15px;
+      font-weight: 600;
+      padding: 10px 12px;
+      margin-top: 8px;
+    }
+
+    .subnav-button {
+      font-size: 14px;
+      padding: 8px 10px;
+      margin-top: 6px;
+      color: #374151;
+    }
+
+    .nav-button:hover,
+    .subnav-button:hover {
+      background: #f3f4f6;
+      border-color: #e5e7eb;
+    }
+
+    .nav-button.is-active,
+    .subnav-button.is-active {
+      background: var(--accent-soft);
+      border-color: #99f6e4;
+      color: #0f5250;
+    }
+
+    .content {
+      padding: 18px;
+      min-height: 0;
+      display: flex;
+    }
+
+    .content-frame {
+      width: 100%;
+      min-height: 551px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #ffffff;
+    }
+
+    @media (max-width: 900px) {
+      .app {
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+
+      .sidebar {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .content-frame {
+        min-height: 494px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .app {
+        width: 96vw;
+        margin: 14px auto;
+      }
+
+      .content {
+        padding: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <aside class="sidebar">
+      <p class="brand">Trusted Security</p>
+      <ul class="nav">
+        <li>
+          <button class="nav-button is-active" data-role="main-tab" data-tab="certification" type="button">
+            可信安全认证
+          </button>
+        </li>
+        <li>
+          <button class="nav-button" data-role="main-tab" data-tab="access" type="button">
+            可信安全接入
+          </button>
+          <ul class="subnav" id="access-subnav">
+            <li>
+              <button class="subnav-button" data-role="sub-tab" data-tab="physical" type="button">物理层</button>
+            </li>
+            <li>
+              <button class="subnav-button" data-role="sub-tab" data-tab="network" type="button">网络层</button>
+            </li>
+            <li>
+              <button class="subnav-button" data-role="sub-tab" data-tab="defense" type="button">安全防御</button>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </aside>
+
+    <section class="content" aria-live="polite">
+      <iframe
+        id="content-frame"
+        class="content-frame"
+        title="右侧页面内容"
+        src="pages/certification.html"
+      ></iframe>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      const mainTabs = document.querySelectorAll('[data-role="main-tab"]');
+      const subTabs = document.querySelectorAll('[data-role="sub-tab"]');
+      const accessSubnav = document.getElementById('access-subnav');
+      const contentFrame = document.getElementById('content-frame');
+
+      const pageMap = {
+        certification: 'pages/certification.html',
+        physical: 'pages/physical.html',
+        network: 'pages/network.html',
+        defense: 'pages/defense.html'
+      };
+
+      let activePage = 'certification';
+      let lastAccessSubTab = 'physical';
+
+      function setActivePage(pageKey) {
+        activePage = pageKey;
+        contentFrame.src = pageMap[pageKey];
+
+        mainTabs.forEach((tab) => tab.classList.remove('is-active'));
+        subTabs.forEach((tab) => tab.classList.remove('is-active'));
+
+        if (pageKey === 'certification') {
+          document.querySelector('[data-role="main-tab"][data-tab="certification"]').classList.add('is-active');
+          accessSubnav.classList.remove('is-open');
+          return;
+        }
+
+        document.querySelector('[data-role="main-tab"][data-tab="access"]').classList.add('is-active');
+        accessSubnav.classList.add('is-open');
+        const activeSubTab = document.querySelector('[data-role="sub-tab"][data-tab="' + pageKey + '"]');
+        if (activeSubTab) {
+          activeSubTab.classList.add('is-active');
+        }
+      }
+
+      mainTabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+          const tabKey = tab.dataset.tab;
+          if (tabKey === 'certification') {
+            setActivePage('certification');
+            return;
+          }
+          setActivePage(lastAccessSubTab || 'physical');
+        });
+      });
+
+      subTabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+          const tabKey = tab.dataset.tab;
+          lastAccessSubTab = tabKey;
+          setActivePage(tabKey);
+        });
+      });
+
+      setActivePage(activePage);
+    })();
+  </script>
+</body>
+</html>
