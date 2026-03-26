@@ -64,15 +64,48 @@
       background: #f9fafb;
       padding: 14px;
       display: grid;
-      grid-template-rows: auto 1fr auto;
+      grid-template-rows: auto auto auto auto;
       gap: 12px;
       min-height: 0;
     }
 
     .mode-buttons {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+    }
+
+    .test-config {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 2px;
+    }
+
+    .test-config-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #334155;
+      white-space: nowrap;
+    }
+
+    .test-count-input {
+      width: 180px;
+      max-width: 100%;
+      height: 34px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      background: #ffffff;
+      color: #0f172a;
+      font-size: 13px;
+      padding: 0 10px;
+      outline: none;
+    }
+
+    .test-count-input:focus {
+      border-color: #0f766e;
+      box-shadow: 0 0 0 2px rgba(15, 118, 110, 0.14);
     }
 
     .mode-btn {
@@ -80,16 +113,28 @@
       border-radius: 8px;
       background: #186487;
       color: #ffffff;
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 600;
-      padding: 12px 10px;
+      padding: 11px 8px;
       cursor: pointer;
       transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
     }
 
-    .mode-btn:hover {
+    .mode-btn:hover:not(:disabled) {
       transform: translateY(-1px);
       box-shadow: 0 6px 16px rgba(24, 100, 135, 0.25);
+    }
+
+    .mode-btn:disabled {
+      cursor: not-allowed;
+      opacity: 0.55;
+      box-shadow: none;
+      transform: none;
+    }
+
+    .mode-btn.start-btn {
+      border-color: #0a7661;
+      background: #0f8a72;
     }
 
     .mode-btn.is-active {
@@ -97,19 +142,25 @@
       box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3);
     }
 
+    .mode-btn.is-done {
+      background: #0e7490;
+      border-color: #0e7490;
+    }
+
     .flow-wrap {
       border: 1px solid #d1d5db;
       border-radius: 8px;
       background: #ffffff;
       padding: 10px;
-      min-height: 0;
+      height: auto;
       overflow: hidden;
       display: flex;
     }
 
     .flow-svg {
       width: 100%;
-      height: 100%;
+      height: auto;
+      aspect-ratio: 900 / 320;
     }
 
     .flow-base {
@@ -170,10 +221,12 @@
     }
 
     .right-panel {
+      position: relative;
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
       min-height: 0;
+      align-items: stretch;
     }
 
     .log-box {
@@ -181,29 +234,86 @@
       border-radius: 10px;
       background: #05070a;
       color: #3cff84;
-      padding: 12px;
+      padding: 10px 10px 8px;
       display: grid;
-      grid-template-rows: auto 1fr;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      gap: 8px;
       min-height: 0;
       overflow: hidden;
       font-family: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      height: 100%;
     }
 
     .log-title {
       margin: 0;
-      font-size: 16px;
+      font-size: 15px;
       color: #7dffab;
       border-bottom: 1px solid #1f2937;
       padding-bottom: 8px;
     }
 
     .log-content {
-      margin: 10px 0 0;
-      padding-left: 16px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
       font-size: 12px;
-      line-height: 1.6;
-      overflow: auto;
+      line-height: 1.55;
+      overflow-y: auto;
+      overflow-x: hidden;
       white-space: pre-wrap;
+    }
+
+    .log-content li {
+      margin: 0 0 6px;
+      word-break: break-word;
+    }
+
+    .log-metric {
+      margin: 0;
+      padding-top: 6px;
+      border-top: 1px dashed rgba(125, 255, 171, 0.35);
+      font-size: 12px;
+      font-weight: 700;
+      color: #93c5fd;
+      line-height: 1.4;
+    }
+
+    .comparison-overlay {
+      position: absolute;
+      left: 50%;
+      top: 56%;
+      transform: translate(-50%, -50%);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      pointer-events: none;
+      z-index: 5;
+      width: 200px;
+    }
+
+    .comparison-overlay.is-visible {
+      display: flex;
+    }
+
+    .comparison-text {
+      margin: 0;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(239, 68, 68, 0.55);
+      background: rgba(255, 255, 255, 0.97);
+      box-shadow: 0 4px 14px rgba(220, 38, 38, 0.18);
+      color: #dc2626;
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .comparison-arrow {
+      width: 170px;
+      height: 28px;
+      display: block;
+      filter: drop-shadow(0 2px 5px rgba(220, 38, 38, 0.28));
     }
 
     @media (max-width: 1000px) {
@@ -214,11 +324,27 @@
       .right-panel {
         grid-template-columns: 1fr;
       }
+
+      .comparison-overlay {
+        position: static;
+        transform: none;
+        margin: 4px auto;
+        width: 170px;
+      }
+
+      .comparison-arrow {
+        width: 150px;
+        height: 24px;
+      }
     }
 
-    @media (max-width: 700px) {
+    @media (max-width: 760px) {
       .mode-buttons {
         grid-template-columns: 1fr;
+      }
+
+      .test-count-input {
+        width: 100%;
       }
 
       .flow-label {
@@ -243,8 +369,21 @@
       <div class="bottom-layout">
         <div class="left-panel">
           <div class="mode-buttons">
-            <button class="mode-btn" type="button" data-mode="centralized">集中式认证</button>
-            <button class="mode-btn" type="button" data-mode="distributed">分布式认证</button>
+            <button class="mode-btn start-btn" type="button" id="start-test-btn">开始测试</button>
+            <button class="mode-btn" type="button" data-mode="distributed" id="distributed-btn">分布式认证</button>
+            <button class="mode-btn" type="button" data-mode="centralized" id="centralized-btn">集中式认证</button>
+          </div>
+
+          <div class="test-config">
+            <label class="test-config-label" for="sample-count-input">总测试次数（可选）</label>
+            <input
+              class="test-count-input"
+              id="sample-count-input"
+              type="text"
+              inputmode="numeric"
+              placeholder="留空=10，范围1-100"
+              aria-label="总测试次数"
+            />
           </div>
 
           <div class="flow-wrap">
@@ -270,27 +409,28 @@
             </svg>
           </div>
 
-          <p class="flow-status" id="flow-status">点击上方按钮，开始认证流程演示</p>
+          <p class="flow-status" id="flow-status" style="display:none;">点击“开始测试”初始化流程</p>
         </div>
 
         <div class="right-panel">
           <article class="log-box">
             <h3 class="log-title">集中式认证日志</h3>
-            <ul class="log-content">
-              <li>[22:33:10] 认证中心连接成功</li>
-              <li>[22:33:14] 接收设备证书请求 #A1024</li>
-              <li>[22:33:16] 证书校验通过，开始签发</li>
-              <li>[22:33:21] 签发完成，已回传认证结果</li>
-            </ul>
+            <ul class="log-content" id="centralized-log"></ul>
+            <p class="log-metric" id="centralized-metrics">集中式：已完成 0/10，当前平均时延 --</p>
           </article>
+
+          <div class="comparison-overlay" id="comparison-overlay">
+            <p class="comparison-text" id="comparison-text"></p>
+            <svg class="comparison-arrow" viewBox="0 0 170 28" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect x="0" y="7" width="148" height="14" fill="#dc2626"></rect>
+              <polygon points="148,0 170,14 148,28" fill="#dc2626"></polygon>
+            </svg>
+          </div>
+
           <article class="log-box">
             <h3 class="log-title">分布式认证日志</h3>
-            <ul class="log-content">
-              <li>[22:33:11] 共识节点已就绪，共 8 节点</li>
-              <li>[22:33:15] 提交认证交易 tx:0x8f4...aa1</li>
-              <li>[22:33:20] 区块确认高度 +1，状态有效</li>
-              <li>[22:33:24] 认证结果广播至边缘网关</li>
-            </ul>
+            <ul class="log-content" id="distributed-log"></ul>
+            <p class="log-metric" id="distributed-metrics">分布式：已完成 0/10，当前平均时延 --</p>
           </article>
         </div>
       </div>
@@ -299,14 +439,45 @@
 
   <script>
     (function () {
+      const DEFAULT_SAMPLE_COUNT = 10;
+      const MIN_SAMPLE_COUNT = 1;
+      const MAX_SAMPLE_COUNT = 100;
+      const NODE_BASE_R = 10;
+      const NODE_ACTIVE_R = 17;
+      const NON_KEY_STAGE_MS = [400, 1000];
+      const AUTH_STAGE_MS = {
+        distributed: [500, 700],
+        centralized: [900, 1100]
+      };
+      const LATENCY_RANGE = {
+        distributed: [0.5, 0.7],
+        centralized: [0.9, 1.1]
+      };
+
+      const startBtn = document.getElementById('start-test-btn');
+      const modeButtons = document.querySelectorAll('[data-mode]');
+      const distributedBtn = document.getElementById('distributed-btn');
+      const centralizedBtn = document.getElementById('centralized-btn');
+      const sampleCountInput = document.getElementById('sample-count-input');
+
       const statusEl = document.getElementById('flow-status');
-      const buttons = document.querySelectorAll('.mode-btn');
+      const distributedMetricsEl = document.getElementById('distributed-metrics');
+      const centralizedMetricsEl = document.getElementById('centralized-metrics');
+      const logEls = {
+        distributed: document.getElementById('distributed-log'),
+        centralized: document.getElementById('centralized-log')
+      };
+
+      const comparisonOverlay = document.getElementById('comparison-overlay');
+      const comparisonText = document.getElementById('comparison-text');
+
       const paths = {
         seg1: document.getElementById('active-seg-1'),
         seg2: document.getElementById('active-seg-2'),
         top: document.getElementById('active-seg-top'),
         bottom: document.getElementById('active-seg-bottom')
       };
+
       const nodes = {
         issue: document.getElementById('node-issue'),
         request: document.getElementById('node-request'),
@@ -314,25 +485,167 @@
         centralized: document.getElementById('node-centralized')
       };
 
-      const PAUSE_MS = 900;
-      const NODE_BASE_R = 10;
-      const NODE_ACTIVE_R = 17;
-      const DURATION_MS = {
-        seg1: 1300,
-        seg2: 1300,
-        branch: 1500
+      function createModeState() {
+        return {
+          samples: [],
+          avgLatency: null,
+          completedCount: 0,
+          targetCount: DEFAULT_SAMPLE_COUNT,
+          running: false,
+          done: false
+        };
+      }
+
+      const state = {
+        session: {
+          started: false,
+          roundId: 0,
+          baseTime: 0
+        },
+        distributed: createModeState(),
+        centralized: createModeState(),
+        comparison: {
+          ready: false,
+          improvementPercent: null
+        },
+        runningMode: null,
+        animationToken: 0
       };
 
-      let animationToken = 0;
+      function randomInRange(min, max) {
+        return min + Math.random() * (max - min);
+      }
+
+      function randomMs(range) {
+        return Math.round(randomInRange(range[0], range[1]));
+      }
 
       function sleep(ms) {
         return new Promise((resolve) => setTimeout(resolve, ms));
       }
 
-      function setButtonState(mode) {
-        buttons.forEach((button) => {
-          button.classList.toggle('is-active', button.dataset.mode === mode);
+      function nowStamp() {
+        const d = new Date();
+        const ms = String(d.getMilliseconds()).padStart(3, '0');
+        return d.toLocaleTimeString('zh-CN', { hour12: false }) + '.' + ms;
+      }
+
+      function formatSeconds(sec) {
+        return sec.toFixed(3);
+      }
+
+      function appendLog(mode, message) {
+        const ul = logEls[mode];
+        const li = document.createElement('li');
+        li.textContent = '[' + nowStamp() + '] ' + message;
+        ul.appendChild(li);
+        ul.scrollTop = ul.scrollHeight;
+      }
+
+      function appendBothLogs(message) {
+        appendLog('distributed', message);
+        appendLog('centralized', message);
+      }
+
+      function clearLogs() {
+        Object.values(logEls).forEach((ul) => {
+          ul.innerHTML = '';
         });
+      }
+
+      function setStatus(text) {
+        statusEl.textContent = text;
+      }
+
+      function getMetricText(modeLabel, modeState) {
+        const avgText = modeState.avgLatency === null ? '--' : formatSeconds(modeState.avgLatency) + 's';
+        return modeLabel + '：已完成 ' + modeState.completedCount + '/' + modeState.targetCount + '，当前平均时延 ' + avgText;
+      }
+
+      function updateMetricsPanel() {
+        distributedMetricsEl.textContent = getMetricText('分布式', state.distributed);
+        centralizedMetricsEl.textContent = getMetricText('集中式', state.centralized);
+      }
+
+      function readTargetCount(mode) {
+        const raw = sampleCountInput.value.trim();
+        if (raw === '') {
+          return DEFAULT_SAMPLE_COUNT;
+        }
+
+        if (!/^\d+$/.test(raw)) {
+          setStatus('输入错误：总测试次数必须为整数（1-100）');
+          appendLog(mode, '[测试控制器] 输入错误：总测试次数必须为整数（1-100）。');
+          return null;
+        }
+
+        const value = Number(raw);
+        if (value < MIN_SAMPLE_COUNT || value > MAX_SAMPLE_COUNT) {
+          setStatus('输入错误：总测试次数范围应为 1-100');
+          appendLog(mode, '[测试控制器] 输入错误：总测试次数范围应为 1-100。');
+          return null;
+        }
+
+        return value;
+      }
+
+      function hideComparison() {
+        state.comparison.ready = false;
+        state.comparison.improvementPercent = null;
+        comparisonText.textContent = '';
+        comparisonOverlay.classList.remove('is-visible');
+      }
+
+      function showComparison() {
+        const dist = state.distributed.avgLatency;
+        const cent = state.centralized.avgLatency;
+        if (dist === null || cent === null) {
+          return;
+        }
+        const improvement = ((cent - dist) / cent) * 100;
+        state.comparison.ready = true;
+        state.comparison.improvementPercent = improvement;
+        comparisonText.textContent =
+          '效率提升 ' + improvement.toFixed(2) + '% | 分布式 ' + formatSeconds(dist) + 's vs 集中式 ' + formatSeconds(cent) + 's';
+        comparisonOverlay.classList.add('is-visible');
+      }
+
+      function handleComparisonResult() {
+        if (!state.distributed.done || !state.centralized.done) {
+          return;
+        }
+
+        if (state.distributed.targetCount !== state.centralized.targetCount) {
+          hideComparison();
+          setStatus('样本数不一致，无法对比，请重新测试并保持一致');
+          appendBothLogs(
+            '[对比结果] 样本数不一致（分布式' +
+              state.distributed.targetCount +
+              '次，集中式' +
+              state.centralized.targetCount +
+              '次），无法计算效率提升。'
+          );
+          return;
+        }
+
+        showComparison();
+        setStatus('步骤4/4：对比完成，分布式跨域认证效率提升已生成');
+      }
+
+      function setButtonsState() {
+        const busy = state.runningMode !== null;
+        startBtn.disabled = busy;
+        sampleCountInput.disabled = busy;
+
+        const distDisabled = !state.session.started || busy || state.distributed.done;
+        const centDisabled = !state.session.started || busy || state.centralized.done;
+        distributedBtn.disabled = distDisabled;
+        centralizedBtn.disabled = centDisabled;
+
+        distributedBtn.classList.toggle('is-active', state.runningMode === 'distributed');
+        centralizedBtn.classList.toggle('is-active', state.runningMode === 'centralized');
+        distributedBtn.classList.toggle('is-done', state.distributed.done);
+        centralizedBtn.classList.toggle('is-done', state.centralized.done);
       }
 
       function initPath(path) {
@@ -343,82 +656,261 @@
         path.style.strokeDashoffset = String(total);
       }
 
-      function resetPaths() {
+      function hidePath(path) {
+        path.style.transition = 'none';
+        path.style.strokeDashoffset = path.dataset.total;
+      }
+
+      function showPath(path) {
+        path.style.transition = 'none';
+        path.style.strokeDashoffset = '0';
+      }
+
+      function setNode(nodeKey, visited, active) {
+        const node = nodes[nodeKey];
+        node.classList.toggle('is-visited', Boolean(visited));
+        node.classList.toggle('is-active', Boolean(active));
+        node.setAttribute('r', String(active ? NODE_ACTIVE_R : NODE_BASE_R));
+      }
+
+      function resetFlow() {
         Object.values(paths).forEach(initPath);
+        Object.keys(nodes).forEach((key) => setNode(key, false, false));
       }
 
-      function resetNodes() {
-        Object.values(nodes).forEach((node) => {
-          node.classList.remove('is-active', 'is-visited');
-          node.setAttribute('r', String(NODE_BASE_R));
-        });
+      function resetSampleFlowVisual() {
+        hidePath(paths.seg2);
+        hidePath(paths.top);
+        hidePath(paths.bottom);
+        setNode('request', false, false);
+        setNode('distributed', false, false);
+        setNode('centralized', false, false);
+        setNode('issue', true, false);
       }
 
-      function revealPath(path, duration) {
+      function animatePath(path, duration, token) {
         return new Promise((resolve) => {
+          if (token !== state.animationToken) {
+            resolve(false);
+            return;
+          }
+
           path.style.transition = 'none';
           path.style.strokeDashoffset = path.dataset.total;
+
           requestAnimationFrame(() => {
             requestAnimationFrame(() => {
               path.style.transition = 'stroke-dashoffset ' + duration + 'ms linear';
               path.style.strokeDashoffset = '0';
             });
           });
-          window.setTimeout(resolve, duration + 40);
+
+          window.setTimeout(() => {
+            resolve(token === state.animationToken);
+          }, duration + 30);
         });
       }
 
-      async function pauseAtNode(node, label, token) {
-        if (token !== animationToken) {
-          return;
+      async function pulseNode(nodeKey, keepVisited, token) {
+        if (token !== state.animationToken) {
+          return false;
         }
-        node.classList.add('is-visited', 'is-active');
-        node.setAttribute('r', String(NODE_ACTIVE_R));
-        statusEl.textContent = '已到达环节：' + label;
-        await sleep(PAUSE_MS);
-        if (token !== animationToken) {
-          return;
+        setNode(nodeKey, true, true);
+        await sleep(260);
+        if (token !== state.animationToken) {
+          return false;
         }
-        node.classList.remove('is-active');
-        node.setAttribute('r', String(NODE_BASE_R));
+        setNode(nodeKey, keepVisited, false);
+        return true;
       }
 
-      async function runFlow(mode) {
-        animationToken += 1;
-        const token = animationToken;
+      async function runInitialization() {
+        state.runningMode = 'init';
+        state.animationToken += 1;
+        const token = state.animationToken;
+        setButtonsState();
 
-        setButtonState(mode);
-        resetPaths();
-        resetNodes();
+        clearLogs();
+        hideComparison();
+        resetFlow();
 
-        const terminalKey = mode === 'distributed' ? 'distributed' : 'centralized';
-        const terminalLabel = mode === 'distributed' ? '分布式认证' : '集中式认证';
+        appendBothLogs('[测试控制器] 新一轮认证测试启动，轮次 ID=' + state.session.roundId + '。');
+        setStatus('步骤1/4：正在执行证书颁发与链上查询');
 
-        statusEl.textContent = '流程启动：' + terminalLabel;
+        await sleep(randomMs(NON_KEY_STAGE_MS));
+        if (token !== state.animationToken) return;
 
-        await revealPath(paths.seg1, DURATION_MS.seg1);
-        await pauseAtNode(nodes.issue, '证书颁发', token);
-        if (token !== animationToken) return;
+        appendBothLogs('[区块链系统服务组件] 启动证书颁发流程，准备写入链上证书信息。');
 
-        await revealPath(paths.seg2, DURATION_MS.seg2);
-        await pauseAtNode(nodes.request, '无人机认证请求', token);
-        if (token !== animationToken) return;
+        const okPath = await animatePath(paths.seg1, 650, token);
+        if (!okPath) return;
+        const okNode = await pulseNode('issue', true, token);
+        if (!okNode) return;
 
-        await revealPath(mode === 'distributed' ? paths.top : paths.bottom, DURATION_MS.branch);
-        await pauseAtNode(nodes[terminalKey], terminalLabel, token);
-        if (token !== animationToken) return;
+        appendBothLogs('[区块链系统服务组件] 执行链上证书查询，证书记录一致性校验通过。');
+        setStatus('步骤1完成：可手动触发“分布式认证”或“集中式认证”测试');
 
-        statusEl.textContent = '流程完成：' + terminalLabel;
+        state.runningMode = null;
+        setButtonsState();
       }
 
-      buttons.forEach((button) => {
-        button.addEventListener('click', function () {
-          runFlow(button.dataset.mode);
+      async function doRequestStage(mode, sampleNo, token) {
+        const targetCount = state[mode].targetCount;
+        const modeLabel = mode === 'distributed' ? '分布式' : '集中式';
+        appendLog(mode, '[异域无人机] 第' + sampleNo + '次发起跨域证书认证请求。');
+        setStatus('步骤2/3：' + modeLabel + ' 第' + sampleNo + '/' + targetCount + '次 - 无人机认证请求');
+
+        resetSampleFlowVisual();
+        const okPath = await animatePath(paths.seg2, 420, token);
+        if (!okPath) return false;
+        return pulseNode('request', true, token);
+      }
+
+      async function doAuthStage(mode, sampleNo, token) {
+        const targetCount = state[mode].targetCount;
+        const modeLabel = mode === 'distributed' ? '分布式' : '集中式';
+        appendLog(mode, '[接入点] 第' + sampleNo + '次启动' + modeLabel + '跨域证书验证。');
+        setStatus('步骤2/3：' + modeLabel + ' 第' + sampleNo + '/' + targetCount + '次 - 接入点验证中');
+
+        const path = mode === 'distributed' ? paths.top : paths.bottom;
+        const nodeKey = mode === 'distributed' ? 'distributed' : 'centralized';
+
+        const okPath = await animatePath(path, 560, token);
+        if (!okPath) return false;
+        return pulseNode(nodeKey, true, token);
+      }
+
+      function getModeAvg(mode) {
+        const samples = state[mode].samples;
+        const sum = samples.reduce((acc, value) => acc + value, 0);
+        return sum / samples.length;
+      }
+
+      async function runModeBatch(mode) {
+        if (!state.session.started || state.runningMode !== null || state[mode].done) {
+          return;
+        }
+
+        const targetCount = readTargetCount(mode);
+        if (targetCount === null) {
+          updateMetricsPanel();
+          return;
+        }
+
+        state[mode].targetCount = targetCount;
+        state[mode].samples = [];
+        state[mode].avgLatency = null;
+        state[mode].completedCount = 0;
+        updateMetricsPanel();
+
+        state.runningMode = mode;
+        state[mode].running = true;
+        state.animationToken += 1;
+        const token = state.animationToken;
+        setButtonsState();
+
+        const modeLabel = mode === 'distributed' ? '分布式认证' : '集中式认证';
+        appendLog(mode, '[测试控制器] ' + modeLabel + '批量测试启动，样本数=' + targetCount + '。');
+
+        for (let i = 1; i <= targetCount; i += 1) {
+          if (token !== state.animationToken) {
+            return;
+          }
+
+          await sleep(randomMs(NON_KEY_STAGE_MS));
+          if (token !== state.animationToken) {
+            return;
+          }
+
+          const okRequest = await doRequestStage(mode, i, token);
+          if (!okRequest || token !== state.animationToken) {
+            return;
+          }
+
+          await sleep(randomMs(AUTH_STAGE_MS[mode]));
+          if (token !== state.animationToken) {
+            return;
+          }
+
+          const okAuth = await doAuthStage(mode, i, token);
+          if (!okAuth || token !== state.animationToken) {
+            return;
+          }
+
+          await sleep(randomMs(NON_KEY_STAGE_MS));
+          if (token !== state.animationToken) {
+            return;
+          }
+
+          const latency = randomInRange(LATENCY_RANGE[mode][0], LATENCY_RANGE[mode][1]);
+          state[mode].samples.push(latency);
+          state[mode].completedCount = i;
+          state[mode].avgLatency = getModeAvg(mode);
+          updateMetricsPanel();
+
+          appendLog(
+            mode,
+            '[区块链系统服务组件] 第' + i + '次认证时延=' + formatSeconds(latency) + 's，已完成统计。'
+          );
+        }
+
+        if (token !== state.animationToken) {
+          return;
+        }
+
+        const avg = state[mode].avgLatency === null ? getModeAvg(mode) : state[mode].avgLatency;
+        state[mode].avgLatency = avg;
+        state[mode].done = true;
+        state[mode].running = false;
+        state.runningMode = null;
+        updateMetricsPanel();
+
+        appendLog(mode, '[统计结果] ' + modeLabel + '平均时延=' + formatSeconds(avg) + 's（样本' + targetCount + '次）。');
+        setStatus(modeLabel + '完成，等待另一方案完成后自动计算效率提升。');
+
+        handleComparisonResult();
+
+        setButtonsState();
+      }
+
+      function resetSessionData() {
+        state.distributed = createModeState();
+        state.centralized = createModeState();
+        state.comparison = {
+          ready: false,
+          improvementPercent: null
+        };
+        state.distributed.targetCount = DEFAULT_SAMPLE_COUNT;
+        state.centralized.targetCount = DEFAULT_SAMPLE_COUNT;
+        updateMetricsPanel();
+      }
+
+      startBtn.addEventListener('click', async () => {
+        if (state.runningMode !== null) {
+          return;
+        }
+
+        state.session.started = true;
+        state.session.roundId += 1;
+        state.session.baseTime = Date.now();
+
+        resetSessionData();
+        setButtonsState();
+        await runInitialization();
+      });
+
+      modeButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const mode = button.dataset.mode;
+          runModeBatch(mode);
         });
       });
 
-      resetPaths();
-      resetNodes();
+      resetFlow();
+      clearLogs();
+      hideComparison();
+      updateMetricsPanel();
+      setButtonsState();
     })();
   </script>
 </body>

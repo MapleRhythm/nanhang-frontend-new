@@ -39,7 +39,7 @@
       box-shadow: var(--shadow);
       display: grid;
       grid-template-columns: 1fr 8fr;
-      min-height: calc(95vh - 53.2px);
+      height: calc(95vh - 53.2px);
       overflow: hidden;
     }
 
@@ -120,18 +120,35 @@
       display: flex;
     }
 
-    .content-frame {
+    .content-stack {
+      position: relative;
       width: 100%;
-      min-height: 551px;
+      height: 100%;
+      min-height: 0;
       border: 1px solid var(--border);
       border-radius: 12px;
       background: #ffffff;
+      overflow: hidden;
+    }
+
+    .content-frame {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: #ffffff;
+      display: none;
+    }
+
+    .content-frame.is-active {
+      display: block;
     }
 
     @media (max-width: 900px) {
       .app {
         grid-template-columns: 1fr;
-        min-height: auto;
+        height: auto;
       }
 
       .sidebar {
@@ -139,8 +156,9 @@
         border-bottom: 1px solid var(--border);
       }
 
-      .content-frame {
+      .content-stack {
         min-height: 494px;
+        height: 494px;
       }
     }
 
@@ -186,12 +204,32 @@
     </aside>
 
     <section class="content" aria-live="polite">
-      <iframe
-        id="content-frame"
-        class="content-frame"
-        title="右侧页面内容"
-        src="pages/certification.html"
-      ></iframe>
+      <div class="content-stack">
+        <iframe
+          class="content-frame"
+          data-page="certification"
+          title="可信安全认证页面"
+          src="pages/certification.html"
+        ></iframe>
+        <iframe
+          class="content-frame"
+          data-page="physical"
+          title="物理层页面"
+          src="pages/physical.html"
+        ></iframe>
+        <iframe
+          class="content-frame"
+          data-page="network"
+          title="网络层页面"
+          src="pages/network.html"
+        ></iframe>
+        <iframe
+          class="content-frame"
+          data-page="defense"
+          title="安全防御页面"
+          src="pages/defense.html"
+        ></iframe>
+      </div>
     </section>
   </main>
 
@@ -200,22 +238,16 @@
       const mainTabs = document.querySelectorAll('[data-role="main-tab"]');
       const subTabs = document.querySelectorAll('[data-role="sub-tab"]');
       const accessSubnav = document.getElementById('access-subnav');
-      const contentFrame = document.getElementById('content-frame');
-
-      const pageMap = {
-        certification: 'pages/certification.html',
-        physical: 'pages/physical.html',
-        network: 'pages/network.html',
-        defense: 'pages/defense.html'
-      };
+      const contentFrames = document.querySelectorAll('.content-frame');
 
       let activePage = 'certification';
       let lastAccessSubTab = 'physical';
 
       function setActivePage(pageKey) {
         activePage = pageKey;
-        // ✅ 正确：每次加载都加新时间戳
-        contentFrame.src = pageMap[pageKey] + '?v=' + Date.now();
+        contentFrames.forEach((frame) => {
+          frame.classList.toggle('is-active', frame.dataset.page === pageKey);
+        });
 
         mainTabs.forEach((tab) => tab.classList.remove('is-active'));
         subTabs.forEach((tab) => tab.classList.remove('is-active'));
