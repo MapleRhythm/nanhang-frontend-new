@@ -236,13 +236,12 @@
     <div class="image-wrap">
         <img src="../assets/physical2.png" alt="物理层接入示意图" />
       </div>
-    </section>
     <section class="section">
   <div class="bottom-layout">
     <div class="left-panel">
       <div class="mode-buttons">
         <button class="mode-btn" type="button" data-mode="centralized">单模态接入</button>
-        <button class="mode-btn" type="button" data-mode="distributed">多模态接入</button>
+        <button class="mode-btn" type="button" data-mode="distributed">区块链增强的多模态接入</button>
       </div>
 
       <div class="flow-wrap">
@@ -267,11 +266,11 @@
           <circle id="node-backoff" class="flow-node" cx="680" cy="280" r="10" />
 
           <!-- 文字标签 -->
-          <text class="flow-label" x="120" y="210">通信屏蔽罩</text>
-          <text class="flow-label" x="380" y="60">多模态接入</text>
-          <text class="flow-label" x="620" y="55">切换接入方式重接入</text>
-          <text class="flow-label" x="380" y="310">单模态接入</text>
-          <text class="flow-label" x="620" y="315">随机退避接入</text>
+          <text class="flow-label" x="120" y="220">通信屏蔽罩</text>
+          <text class="flow-label" x="380" y="50">多模态接入</text>
+          <text class="flow-label" x="620" y="50">切换接入方式重接入</text>
+          <text class="flow-label" x="380" y="320">单模态接入</text>
+          <text class="flow-label" x="620" y="320">随机退避接入</text>
         </svg>
       </div>
 
@@ -280,7 +279,7 @@
 
     <div class="right-panel">
       <article class="log-box">
-        <h3 class="log-title">单模态接入日志</h3>
+        <h3 class="log-title">单模态接入物理层日志</h3>
         <ul class="log-content">
           <li>[22:33:10] 认证中心连接成功</li>
           <li>[22:33:14] 接收设备证书请求 #A1024</li>
@@ -289,7 +288,7 @@
         </ul>
       </article>
       <article class="log-box">
-        <h3 class="log-title">多模态接入日志</h3>
+        <h3 class="log-title">多模态接入物理层日志</h3>
         <ul class="log-content">
           <li>[22:33:11] 共识节点已就绪，共 8 节点</li>
           <li>[22:33:15] 提交认证交易 tx:0x8f4...aa1</li>
@@ -313,7 +312,7 @@
     const nodes = {
       start: document.getElementById('node-start'),
       multi: document.getElementById('node-multi'),
-      switch: document.getElementById('node-switch'),
+      switchNode: document.getElementById('node-switch'),
       single: document.getElementById('node-single'),
       backoff: document.getElementById('node-backoff')
     };
@@ -323,7 +322,8 @@
     const NODE_ACTIVE_R = 17;
     const DURATION_MS = {
       seg1: 1200,
-      branch: 1600
+      branchPart1: 1000,
+      branchPart2: 1000
     };
 
     let animationToken = 0;
@@ -357,17 +357,17 @@
       });
     }
 
-    function revealPath(path, duration) {
+    function revealPathSegment(path, startOffset, endOffset, duration) {
       return new Promise((resolve) => {
         path.style.transition = 'none';
-        path.style.strokeDashoffset = path.dataset.total;
+        path.style.strokeDashoffset = startOffset;
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
-            path.style.transition = 'stroke-dashoffset ' + duration + 'ms linear';
-            path.style.strokeDashoffset = '0';
+            path.style.transition = `stroke-dashoffset ${duration}ms linear`;
+            path.style.strokeDashoffset = endOffset;
           });
         });
-        window.setTimeout(resolve, duration + 40);
+        setTimeout(resolve, duration + 40);
       });
     }
 
@@ -383,40 +383,53 @@
     }
 
     async function runFlow(mode) {
-      animationToken += 1;
+      animationToken++;
       const token = animationToken;
 
       setButtonState(mode);
       resetPaths();
       resetNodes();
 
-      statusEl.textContent = '流程启动：' + (mode === 'distributed' ? '多模态接入' : '单模态接入');
+      const flowName = mode === 'distributed' ? '多模态接入' : '单模态接入';
+      statusEl.textContent = '流程启动：' + flowName;
+      await sleep(300);
 
-      // 第一段：通信屏蔽罩
-      await revealPath(paths.seg1, DURATION_MS.seg1);
+      // ====================== 第一段：通信屏蔽罩 ======================
+      await revealPathSegment(paths.seg1, paths.seg1.dataset.total, 0, DURATION_MS.seg1);
       await pauseAtNode(nodes.start, '通信屏蔽罩', token);
       if (token !== animationToken) return;
 
       if (mode === 'distributed') {
-        // 多模态分支：多模态接入 → 切换接入方式重接入
-        await revealPath(paths.top, DURATION_MS.branch);
+        // ====================== 多模态：多模态接入 ======================
+        const totalTop = Number(paths.top.dataset.total);
+        const offset1 = totalTop * 0.5;
+        await revealPathSegment(paths.top, totalTop, offset1, DURATION_MS.branchPart1);
         await pauseAtNode(nodes.multi, '多模态接入', token);
         if (token !== animationToken) return;
-        await pauseAtNode(nodes.switch, '切换接入方式重接入', token);
+
+        // ====================== 多模态：切换接入方式重接入 ======================
+        await revealPathSegment(paths.top, offset1, 0, DURATION_MS.branchPart2);
+        await pauseAtNode(nodes.switchNode, '切换接入方式重接入', token);
       } else {
-        // 单模态分支：单模态接入 → 随机退避接入
-        await revealPath(paths.bottom, DURATION_MS.branch);
+        // ====================== 单模态：单模态接入 ======================
+        const totalBot = Number(paths.bottom.dataset.total);
+        const offset2 = totalBot * 0.5;
+        await revealPathSegment(paths.bottom, totalBot, offset2, DURATION_MS.branchPart1);
         await pauseAtNode(nodes.single, '单模态接入', token);
         if (token !== animationToken) return;
+
+        // ====================== 单模态：随机退避接入 ======================
+        await revealPathSegment(paths.bottom, offset2, 0, DURATION_MS.branchPart2);
         await pauseAtNode(nodes.backoff, '随机退避接入', token);
       }
 
-      if (token !== animationToken) return;
-      statusEl.textContent = '流程完成：' + (mode === 'distributed' ? '多模态接入' : '单模态接入');
+      if (token === animationToken) {
+        statusEl.textContent = '流程完成：' + flowName;
+      }
     }
 
     buttons.forEach((button) => {
-      button.addEventListener('click', function () {
+      button.addEventListener('click', () => {
         runFlow(button.dataset.mode);
       });
     });
