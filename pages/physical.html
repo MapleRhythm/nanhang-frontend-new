@@ -238,186 +238,192 @@
       </div>
     </section>
     <section class="section">
-      <div class="bottom-layout">
-        <div class="left-panel">
-          <div class="mode-buttons">
-            <button class="mode-btn" type="button" data-mode="centralized">单模态接入</button>
-            <button class="mode-btn" type="button" data-mode="distributed">区块链增强的多模态接入</button>
-          </div>
-
-          <div class="flow-wrap">
-            <svg class="flow-svg" viewBox="0 0 900 320" xmlns="http://www.w3.org/2000/svg" aria-label="物理层接入流程图">
-              <path class="flow-base" d="M50 175 L375 175" />
-              <path class="flow-base" d="M375 175 C455 175 455 95 560 95 L700 95" />
-              <path class="flow-base" d="M375 175 C455 175 455 255 560 255 L700 255" />
-
-              <path id="active-seg-1" class="flow-active" d="M50 175 L190 175" />
-              <path id="active-seg-2" class="flow-active" d="M190 175 L375 175" />
-              <path id="active-seg-top" class="flow-active" d="M375 175 C455 175 455 95 560 95 L700 95" />
-              <path id="active-seg-bottom" class="flow-active" d="M375 175 C455 175 455 255 560 255 L700 255" />
-
-              <circle id="node-issue" class="flow-node" cx="190" cy="175" r="10" />
-              <circle id="node-request" class="flow-node" cx="375" cy="175" r="10" />
-              <circle id="node-distributed" class="flow-node" cx="700" cy="95" r="10" />
-              <circle id="node-centralized" class="flow-node" cx="700" cy="255" r="10" />
-
-              <text class="flow-label" x="125" y="225">通信屏蔽罩</text>
-              <text class="flow-label" x="260" y="225">无人机认证请求</text>
-              <text class="flow-label-small" x="560" y="80">多模态接入</text>
-              <text class="flow-label-small" x="560" y="286">单模态接入</text>
-            </svg>
-          </div>
-
-          <p class="flow-status" id="flow-status">点击上方按钮，开始认证流程演示</p>
-        </div>
-
-        <div class="right-panel">
-          <article class="log-box">
-            <h3 class="log-title">单模态接入日志</h3>
-            <ul class="log-content">
-              <li>[22:33:10] 认证中心连接成功</li>
-              <li>[22:33:14] 接收设备证书请求 #A1024</li>
-              <li>[22:33:16] 证书校验通过，开始签发</li>
-              <li>[22:33:21] 签发完成，已回传认证结果</li>
-            </ul>
-          </article>
-          <article class="log-box">
-            <h3 class="log-title">多模态接入日志</h3>
-            <ul class="log-content">
-              <li>[22:33:11] 共识节点已就绪，共 8 节点</li>
-              <li>[22:33:15] 提交认证交易 tx:0x8f4...aa1</li>
-              <li>[22:33:20] 区块确认高度 +1，状态有效</li>
-              <li>[22:33:24] 认证结果广播至边缘网关</li>
-            </ul>
-          </article>
-        </div>
+  <div class="bottom-layout">
+    <div class="left-panel">
+      <div class="mode-buttons">
+        <button class="mode-btn" type="button" data-mode="centralized">单模态接入</button>
+        <button class="mode-btn" type="button" data-mode="distributed">多模态接入</button>
       </div>
-    </section>
-  </main>
 
-  <script>
-    (function () {
-      const statusEl = document.getElementById('flow-status');
-      const buttons = document.querySelectorAll('.mode-btn');
-      const paths = {
-        seg1: document.getElementById('active-seg-1'),
-        seg2: document.getElementById('active-seg-2'),
-        top: document.getElementById('active-seg-top'),
-        bottom: document.getElementById('active-seg-bottom')
-      };
-      const nodes = {
-        issue: document.getElementById('node-issue'),
-        request: document.getElementById('node-request'),
-        distributed: document.getElementById('node-distributed'),
-        centralized: document.getElementById('node-centralized')
-      };
+      <div class="flow-wrap">
+        <svg class="flow-svg" viewBox="0 0 900 360" xmlns="http://www.w3.org/2000/svg" aria-label="物理层接入流程图">
+          <!-- 基础灰色底线路 -->
+          <path class="flow-base" d="M50 180 L240 180" />
+          <path class="flow-base" d="M240 180 C320 180 320 80 440 80 L620 80" />
+          <path class="flow-base" d="M440 80 C520 80 520 80 680 80" />
+          <path class="flow-base" d="M240 180 C320 180 320 280 440 280 L620 280" />
+          <path class="flow-base" d="M440 280 C520 280 520 280 680 280" />
 
-      const PAUSE_MS = 900;
-      const NODE_BASE_R = 10;
-      const NODE_ACTIVE_R = 17;
-      const DURATION_MS = {
-        seg1: 1300,
-        seg2: 1300,
-        branch: 1500
-      };
+          <!-- 动画高亮线路 -->
+          <path id="active-seg-1" class="flow-active" d="M50 180 L240 180" />
+          <path id="active-seg-top" class="flow-active" d="M240 180 C320 180 320 80 440 80 L680 80" />
+          <path id="active-seg-bottom" class="flow-active" d="M240 180 C320 180 320 280 440 280 L680 280" />
 
-      let animationToken = 0;
+          <!-- 流程节点 -->
+          <circle id="node-start" class="flow-node" cx="240" cy="180" r="10" />
+          <circle id="node-multi" class="flow-node" cx="440" cy="80" r="10" />
+          <circle id="node-switch" class="flow-node" cx="680" cy="80" r="10" />
+          <circle id="node-single" class="flow-node" cx="440" cy="280" r="10" />
+          <circle id="node-backoff" class="flow-node" cx="680" cy="280" r="10" />
 
-      function sleep(ms) {
-        return new Promise((resolve) => setTimeout(resolve, ms));
-      }
+          <!-- 文字标签 -->
+          <text class="flow-label" x="120" y="210">通信屏蔽罩</text>
+          <text class="flow-label" x="380" y="60">多模态接入</text>
+          <text class="flow-label" x="620" y="55">切换接入方式重接入</text>
+          <text class="flow-label" x="380" y="310">单模态接入</text>
+          <text class="flow-label" x="620" y="315">随机退避接入</text>
+        </svg>
+      </div>
 
-      function setButtonState(mode) {
-        buttons.forEach((button) => {
-          button.classList.toggle('is-active', button.dataset.mode === mode);
-        });
-      }
+      <p class="flow-status" id="flow-status">点击上方按钮，开始认证流程演示</p>
+    </div>
 
-      function initPath(path) {
-        const total = path.getTotalLength();
-        path.dataset.total = String(total);
-        path.style.transition = 'none';
-        path.style.strokeDasharray = String(total);
-        path.style.strokeDashoffset = String(total);
-      }
+    <div class="right-panel">
+      <article class="log-box">
+        <h3 class="log-title">单模态接入日志</h3>
+        <ul class="log-content">
+          <li>[22:33:10] 认证中心连接成功</li>
+          <li>[22:33:14] 接收设备证书请求 #A1024</li>
+          <li>[22:33:16] 证书校验通过，开始签发</li>
+          <li>[22:33:21] 签发完成，已回传认证结果</li>
+        </ul>
+      </article>
+      <article class="log-box">
+        <h3 class="log-title">多模态接入日志</h3>
+        <ul class="log-content">
+          <li>[22:33:11] 共识节点已就绪，共 8 节点</li>
+          <li>[22:33:15] 提交认证交易 tx:0x8f4...aa1</li>
+          <li>[22:33:20] 区块确认高度 +1，状态有效</li>
+          <li>[22:33:24] 认证结果广播至边缘网关</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
 
-      function resetPaths() {
-        Object.values(paths).forEach(initPath);
-      }
+<script>
+  (function () {
+    const statusEl = document.getElementById('flow-status');
+    const buttons = document.querySelectorAll('.mode-btn');
+    const paths = {
+      seg1: document.getElementById('active-seg-1'),
+      top: document.getElementById('active-seg-top'),
+      bottom: document.getElementById('active-seg-bottom')
+    };
+    const nodes = {
+      start: document.getElementById('node-start'),
+      multi: document.getElementById('node-multi'),
+      switch: document.getElementById('node-switch'),
+      single: document.getElementById('node-single'),
+      backoff: document.getElementById('node-backoff')
+    };
 
-      function resetNodes() {
-        Object.values(nodes).forEach((node) => {
-          node.classList.remove('is-active', 'is-visited');
-          node.setAttribute('r', String(NODE_BASE_R));
-        });
-      }
+    const PAUSE_MS = 900;
+    const NODE_BASE_R = 10;
+    const NODE_ACTIVE_R = 17;
+    const DURATION_MS = {
+      seg1: 1200,
+      branch: 1600
+    };
 
-      function revealPath(path, duration) {
-        return new Promise((resolve) => {
-          path.style.transition = 'none';
-          path.style.strokeDashoffset = path.dataset.total;
-          requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-              path.style.transition = 'stroke-dashoffset ' + duration + 'ms linear';
-              path.style.strokeDashoffset = '0';
-            });
-          });
-          window.setTimeout(resolve, duration + 40);
-        });
-      }
+    let animationToken = 0;
 
-      async function pauseAtNode(node, label, token) {
-        if (token !== animationToken) {
-          return;
-        }
-        node.classList.add('is-visited', 'is-active');
-        node.setAttribute('r', String(NODE_ACTIVE_R));
-        statusEl.textContent = '已到达环节：' + label;
-        await sleep(PAUSE_MS);
-        if (token !== animationToken) {
-          return;
-        }
-        node.classList.remove('is-active');
-        node.setAttribute('r', String(NODE_BASE_R));
-      }
+    function sleep(ms) {
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    }
 
-      async function runFlow(mode) {
-        animationToken += 1;
-        const token = animationToken;
-
-        setButtonState(mode);
-        resetPaths();
-        resetNodes();
-
-        const terminalKey = mode === 'distributed' ? 'distributed' : 'centralized';
-        const terminalLabel = mode === 'distributed' ? '分布式认证' : '集中式认证';
-
-        statusEl.textContent = '流程启动：' + terminalLabel;
-
-        await revealPath(paths.seg1, DURATION_MS.seg1);
-        await pauseAtNode(nodes.issue, '证书颁发', token);
-        if (token !== animationToken) return;
-
-        await revealPath(paths.seg2, DURATION_MS.seg2);
-        await pauseAtNode(nodes.request, '无人机认证请求', token);
-        if (token !== animationToken) return;
-
-        await revealPath(mode === 'distributed' ? paths.top : paths.bottom, DURATION_MS.branch);
-        await pauseAtNode(nodes[terminalKey], terminalLabel, token);
-        if (token !== animationToken) return;
-
-        statusEl.textContent = '流程完成：' + terminalLabel;
-      }
-
+    function setButtonState(mode) {
       buttons.forEach((button) => {
-        button.addEventListener('click', function () {
-          runFlow(button.dataset.mode);
-        });
+        button.classList.toggle('is-active', button.dataset.mode === mode);
       });
+    }
 
+    function initPath(path) {
+      const total = path.getTotalLength();
+      path.dataset.total = String(total);
+      path.style.transition = 'none';
+      path.style.strokeDasharray = String(total);
+      path.style.strokeDashoffset = String(total);
+    }
+
+    function resetPaths() {
+      Object.values(paths).forEach(initPath);
+    }
+
+    function resetNodes() {
+      Object.values(nodes).forEach((node) => {
+        node.classList.remove('is-active', 'is-visited');
+        node.setAttribute('r', String(NODE_BASE_R));
+      });
+    }
+
+    function revealPath(path, duration) {
+      return new Promise((resolve) => {
+        path.style.transition = 'none';
+        path.style.strokeDashoffset = path.dataset.total;
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            path.style.transition = 'stroke-dashoffset ' + duration + 'ms linear';
+            path.style.strokeDashoffset = '0';
+          });
+        });
+        window.setTimeout(resolve, duration + 40);
+      });
+    }
+
+    async function pauseAtNode(node, label, token) {
+      if (token !== animationToken) return;
+      node.classList.add('is-visited', 'is-active');
+      node.setAttribute('r', String(NODE_ACTIVE_R));
+      statusEl.textContent = '已到达环节：' + label;
+      await sleep(PAUSE_MS);
+      if (token !== animationToken) return;
+      node.classList.remove('is-active');
+      node.setAttribute('r', String(NODE_BASE_R));
+    }
+
+    async function runFlow(mode) {
+      animationToken += 1;
+      const token = animationToken;
+
+      setButtonState(mode);
       resetPaths();
       resetNodes();
-    })();
-  </script>
+
+      statusEl.textContent = '流程启动：' + (mode === 'distributed' ? '多模态接入' : '单模态接入');
+
+      // 第一段：通信屏蔽罩
+      await revealPath(paths.seg1, DURATION_MS.seg1);
+      await pauseAtNode(nodes.start, '通信屏蔽罩', token);
+      if (token !== animationToken) return;
+
+      if (mode === 'distributed') {
+        // 多模态分支：多模态接入 → 切换接入方式重接入
+        await revealPath(paths.top, DURATION_MS.branch);
+        await pauseAtNode(nodes.multi, '多模态接入', token);
+        if (token !== animationToken) return;
+        await pauseAtNode(nodes.switch, '切换接入方式重接入', token);
+      } else {
+        // 单模态分支：单模态接入 → 随机退避接入
+        await revealPath(paths.bottom, DURATION_MS.branch);
+        await pauseAtNode(nodes.single, '单模态接入', token);
+        if (token !== animationToken) return;
+        await pauseAtNode(nodes.backoff, '随机退避接入', token);
+      }
+
+      if (token !== animationToken) return;
+      statusEl.textContent = '流程完成：' + (mode === 'distributed' ? '多模态接入' : '单模态接入');
+    }
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', function () {
+        runFlow(button.dataset.mode);
+      });
+    });
+
+    resetPaths();
+    resetNodes();
+  })();
+</script>
   </body>
 </html>
