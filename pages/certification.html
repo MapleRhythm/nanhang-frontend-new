@@ -442,10 +442,22 @@
       position: relative;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      grid-template-rows: minmax(0, 1fr) 96px;
+      grid-template-areas:
+        "centralized distributed"
+        "comparison comparison";
+      gap: 10px;
       min-height: 0;
       align-items: stretch;
       overflow: hidden;
+    }
+
+    .centralized-box {
+      grid-area: centralized;
+    }
+
+    .distributed-box {
+      grid-area: distributed;
     }
 
     .log-box {
@@ -524,14 +536,19 @@
       display: none;
       flex-direction: column;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       pointer-events: none;
       z-index: 5;
-      width: 200px;
+      width: min(430px, 100%);
+      padding-top: 2px;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.25s ease;
     }
 
     .comparison-overlay.is-visible {
-      display: flex;
+      visibility: visible;
+      opacity: 1;
     }
 
     .comparison-text {
@@ -542,14 +559,15 @@
       background: rgba(255, 255, 255, 0.97);
       box-shadow: 0 4px 14px rgba(220, 38, 38, 0.18);
       color: #dc2626;
-      font-size: 13px;
+      font-size: 32.5px;
+      line-height: 1.15;
       font-weight: 700;
       white-space: nowrap;
     }
 
     .comparison-arrow {
-      width: 170px;
-      height: 28px;
+      width: min(360px, 100%);
+      height: 72px;
       display: block;
       filter: drop-shadow(0 2px 5px rgba(220, 38, 38, 0.28));
     }
@@ -605,18 +623,21 @@
 
       .right-panel {
         grid-template-columns: 1fr;
+        grid-template-rows: minmax(0, 1fr) minmax(0, 1fr) 86px;
+        grid-template-areas:
+          "centralized"
+          "distributed"
+          "comparison";
       }
 
       .comparison-overlay {
-        position: static;
-        transform: none;
-        margin: 4px auto;
-        width: 170px;
+        margin: 4px auto 0;
+        width: min(300px, 100%);
       }
 
       .comparison-arrow {
-        width: 150px;
-        height: 24px;
+        width: min(260px, 100%);
+        height: 64px;
       }
     }
 
@@ -904,6 +925,7 @@
               <rect x="0" y="7" width="148" height="14" fill="#dc2626"></rect> <!-- 箭身左上角(0,7)，尺寸148x14 -->
               <polygon points="148,0 170,14 148,28" fill="#dc2626"></polygon> <!-- 箭头三点坐标(148,0) (170,14) (148,28) -->
             </svg>
+            <p class="comparison-text" id="comparison-text"></p>
           </div>
 
           <!-- 右栏右侧：分布式认证日志 -->
