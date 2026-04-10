@@ -98,12 +98,14 @@
     }
 
     .hero-right .hero-diagram {
-      height: 412px;
+      height: 450px;
+      aspect-ratio: 860 / 420;
     }
 
     .hero-right {
       width: 90%;
       justify-self: end;
+      padding: 0;
     }
 
     .hero-arrow {
@@ -754,7 +756,7 @@
             </defs>
 
             <rect x="0" y="292" width="860" height="128" fill="#cfd8e1" /> <!-- Layer1底色左上角(0,292)，尺寸860x128 -->
-            <ellipse cx="206" cy="140" rx="232" ry="108" fill="#efd9c8" /> <!-- 椭圆中心(206,140)，半径(rx=232, ry=108) -->
+            <ellipse cx="232" cy="184" rx="232" ry="108" fill="#efd9c8" /> <!-- 椭圆中心(232,184)，半径(rx=232, ry=108)，左边界与外框对齐且底边贴齐Layer1分界线 -->
 
             <text x="20" y="34" font-size="20" font-weight="700">Layer 2 &#26080;&#20154;&#26426;</text> <!-- Layer2标题基线起点(20,34) -->
 
@@ -773,28 +775,28 @@
             <image href="../assets/certification/icons/drone-m210.png" x="402" y="214" width="58" height="36" /> <!-- UAV-3图标左上角(402,214)，尺寸58x36 -->
             <text x="392" y="198" font-size="16">UAV-3</text> <!-- UAV-3标签基线起点(392,198) -->
 
-            <image href="../assets/certification/icons/drone-quad.png" x="600" y="106" width="66" height="66" /> <!-- UAV-4图标左上角(600,106)，尺寸66x66 -->
-            <text x="606" y="86" font-size="16">UAV-4</text> <!-- UAV-4标签基线起点(606,86) -->
-            <line x1="330" y1="168" x2="632" y2="138" stroke="#3c74c9" stroke-width="3.8" marker-end="url(#right-arrow-blue)" /> <!-- 跨域认证线起点(330,168) 终点(632,138) -->
-            <text x="422" y="120" font-size="16" font-weight="700" transform="rotate(-13 422 120)">
+            <image href="../assets/certification/icons/drone-quad.png" x="586" y="106" width="66" height="66" /> <!-- UAV-4图标左上角(586,106)，尺寸66x66 -->
+            <text x="592" y="86" font-size="16">UAV-4</text> <!-- UAV-4标签基线起点(592,86) -->
+            <line x1="330" y1="168" x2="618" y2="138" stroke="#3c74c9" stroke-width="3.8" marker-end="url(#right-arrow-blue)" /> <!-- 跨域认证线起点(330,168) 终点(618,138) -->
+            <text x="410" y="120" font-size="16" font-weight="700" transform="rotate(-13 410 120)">
               &#36328;&#22495;&#35748;&#35777;
             </text>
 
-            <image href="../assets/certification/icons/gov.png" x="748" y="130" width="50" height="50" /> <!-- 子CA2图标左上角(748,130)，尺寸50x50 -->
-            <text x="758" y="206" font-size="15">&#23376;CA2</text> <!-- 子CA2文字基线起点(758,206) -->
-            <image href="../assets/certification/icons/gov.png" x="650" y="226" width="50" height="50" /> <!-- 根CA2图标左上角(650,226)，尺寸50x50 -->
-            <image href="../assets/certification/icons/flag-red.png" x="694" y="244" width="12" height="12" /> <!-- 根CA2旗标左上角(694,244)，尺寸12x12 -->
-            <text x="652" y="296" font-size="15">&#26681;CA2</text> <!-- 根CA2文字基线起点(652,296) -->
-            <line x1="748" y1="160" x2="700" y2="148" stroke="#7a7a7a" stroke-width="2.8" marker-end="url(#right-arrow-gray)" /> <!-- 灰色连线起点(748,160) 终点(700,148) -->
-            <line x1="748" y1="208" x2="712" y2="252" stroke="#7a7a7a" stroke-width="2.8" marker-end="url(#right-arrow-gray)" /> <!-- 灰色连线起点(748,208) 终点(712,252) -->
-            <rect x="676" y="182" width="74" height="34" rx="4" fill="#ffffff" opacity="0.96" /> <!-- 说明框左上角(676,182)，尺寸74x34 -->
-            <text x="680" y="196" font-size="12.6" fill="#333">&#39041;&#21457;/&#25764;&#38144;</text> <!-- 说明文字1基线起点(680,196) -->
-            <text x="704" y="210" font-size="12.6" fill="#333">&#35777;&#20070;</text> <!-- 说明文字2基线起点(704,210) -->
-            <image href="../assets/certification/icons/cert-green.png" x="774" y="258" width="30" height="30" /> <!-- 证书图标左上角(774,258)，尺寸30x30 -->
-            <text x="804" y="270" font-size="12.5" fill="#374151">&#35777;&#20070;&#31649;&#29702;</text> <!-- 合约说明文字1基线起点(804,270) -->
-            <text x="804" y="286" font-size="12.5" fill="#374151">&#26234;&#33021;&#21512;&#32422;</text> <!-- 合约说明文字2基线起点(804,286) -->
-            <line x1="760" y1="316" x2="760" y2="286" stroke="#1f2937" stroke-width="2.6" marker-end="url(#right-arrow-dark)" /> <!-- 深色箭头线起点(760,316) 终点(760,286) -->
-            <line x1="778" y1="286" x2="778" y2="316" stroke="#1f2937" stroke-width="2.6" marker-end="url(#right-arrow-dark)" /> <!-- 深色箭头线起点(778,286) 终点(778,316) -->
+            <image href="../assets/certification/icons/gov.png" x="734" y="130" width="50" height="50" /> <!-- 子CA2图标左上角(734,130)，尺寸50x50 -->
+            <text x="744" y="206" font-size="15">&#23376;CA2</text> <!-- 子CA2文字基线起点(744,206) -->
+            <image href="../assets/certification/icons/gov.png" x="636" y="226" width="50" height="50" /> <!-- 根CA2图标左上角(636,226)，尺寸50x50 -->
+            <image href="../assets/certification/icons/flag-red.png" x="680" y="244" width="12" height="12" /> <!-- 根CA2旗标左上角(680,244)，尺寸12x12 -->
+            <text x="638" y="296" font-size="15">&#26681;CA2</text> <!-- 根CA2文字基线起点(638,296) -->
+            <line x1="734" y1="160" x2="684" y2="148" stroke="#7a7a7a" stroke-width="2.8" marker-end="url(#right-arrow-gray)" /> <!-- 灰色连线起点(734,160) 终点(684,148) -->
+            <line x1="734" y1="208" x2="698" y2="252" stroke="#7a7a7a" stroke-width="2.8" marker-end="url(#right-arrow-gray)" /> <!-- 灰色连线起点(734,208) 终点(698,252) -->
+            <rect x="662" y="182" width="74" height="34" rx="4" fill="#ffffff" opacity="0.96" /> <!-- 说明框左上角(662,182)，尺寸74x34 -->
+            <text x="666" y="196" font-size="12.6" fill="#333">&#39041;&#21457;/&#25764;&#38144;</text> <!-- 说明文字1基线起点(666,196) -->
+            <text x="690" y="210" font-size="12.6" fill="#333">&#35777;&#20070;</text> <!-- 说明文字2基线起点(690,210) -->
+            <image href="../assets/certification/icons/cert-green.png" x="760" y="258" width="30" height="30" /> <!-- 证书图标左上角(760,258)，尺寸30x30 -->
+            <text x="790" y="270" font-size="12.5" fill="#374151">&#35777;&#20070;&#31649;&#29702;</text> <!-- 合约说明文字1基线起点(790,270) -->
+            <text x="790" y="286" font-size="12.5" fill="#374151">&#26234;&#33021;&#21512;&#32422;</text> <!-- 合约说明文字2基线起点(790,286) -->
+            <line x1="746" y1="316" x2="746" y2="286" stroke="#1f2937" stroke-width="2.6" marker-end="url(#right-arrow-dark)" /> <!-- 深色箭头线起点(746,316) 终点(746,286) -->
+            <line x1="764" y1="286" x2="764" y2="316" stroke="#1f2937" stroke-width="2.6" marker-end="url(#right-arrow-dark)" /> <!-- 深色箭头线起点(764,286) 终点(764,316) -->
 
             <image href="../assets/certification/icons/cert-blue.png" x="352" y="236" width="30" height="30" /> <!-- 链上请求图标左上角(352,236)，尺寸30x30 -->
             <text x="390" y="258" font-size="14.5">&#38142;&#19978;&#35748;&#35777;&#35831;&#27714;</text> <!-- 链上请求文字基线起点(390,258) -->
@@ -807,9 +809,9 @@
             <text x="212" y="250" font-size="13.6">&#35777;&#32467;&#26524;</text> <!-- 结果文字2基线起点(212,250) -->
 
             <image href="../assets/blockchain.png" x="138" y="338" width="626" height="78" preserveAspectRatio="xMidYMid meet" /> <!-- 区块链底图左上角(138,338)，尺寸626x78 -->
-            <rect x="758" y="326" width="66" height="26" rx="5" fill="none" stroke="#111827" stroke-width="1.8" stroke-dasharray="6 4" /> <!-- 证书框左上角(758,326)，尺寸66x26 -->
-            <image href="../assets/certification/icons/cert-blue.png" x="764" y="328" width="18" height="18" /> <!-- 蓝证书图标左上角(764,328)，尺寸18x18 -->
-            <image href="../assets/certification/icons/cert-green.png" x="786" y="328" width="18" height="18" /> <!-- 绿证书图标左上角(786,328)，尺寸18x18 -->
+            <rect x="744" y="326" width="66" height="26" rx="5" fill="none" stroke="#111827" stroke-width="1.8" stroke-dasharray="6 4" /> <!-- 证书框左上角(744,326)，尺寸66x26 -->
+            <image href="../assets/certification/icons/cert-blue.png" x="750" y="328" width="18" height="18" /> <!-- 蓝证书图标左上角(750,328)，尺寸18x18 -->
+            <image href="../assets/certification/icons/cert-green.png" x="772" y="328" width="18" height="18" /> <!-- 绿证书图标左上角(772,328)，尺寸18x18 -->
             <text x="20" y="334" font-size="20" font-weight="700">Layer 1 &#20027;&#38142;</text> <!-- Layer1标题基线起点(20,334) -->
             <text x="20" y="358" font-size="16">&#20027;&#38142;&#33410;&#28857;</text> <!-- Layer1说明基线起点(20,358) -->
           </svg>
