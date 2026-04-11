@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
@@ -53,6 +53,7 @@
       grid-template-columns: 4.2fr 1.35fr 7.3fr;
       gap: 14px;
       align-items: start;
+      overflow: visible;
     }
 
     .hero-left-stack {
@@ -71,7 +72,7 @@
     }
 
     .hero-tag {
-      /* 左上角浮动标签：相对 .hero-card 左上角向上偏移 */
+      /* 左上角浮动标签：相对 .hero-card 左上角向上偏�?*/
       position: absolute;
       left: 14px;
       top: -46px;
@@ -103,16 +104,18 @@
     }
 
     .hero-right {
-      width: 90%;
+      width: 96%;
       justify-self: end;
       padding: 0;
     }
 
     .hero-arrow {
       display: flex;
-      justify-content: center;
+      justify-content: flex-end;
       align-items: center;
       padding-top: 152px;
+      padding-right: 0;
+      transform: translateX(10px);
       position: relative;
       z-index: 6;
       overflow: visible;
@@ -120,8 +123,8 @@
 
     .hero-arrow-combo {
       position: relative;
-      width: 160px;
-      height: 46px;
+      width: 150px;
+      height: 66px;
       background: #d66b16;
       border: none;
       border-radius: 0;
@@ -140,13 +143,15 @@
     .hero-arrow-combo::after {
       content: "";
       position: absolute;
-      right: -20px;
-      top: -20px;
+      right: -13px;
+      top: -12px;
       width: 0;
       height: 0;
       border-top: 45px solid transparent;
       border-bottom: 45px solid transparent;
-      border-left: 25px solid #d66b16;
+      border-left: 15px solid #d66b16;
+      transform: scale(1.3);
+      transform-origin: left center;
     }
 
     .hero-boost-badge {
@@ -251,6 +256,12 @@
       margin-top: 2px;
     }
 
+    .test-count-input-wrap {
+      position: relative;
+      width: 180px;
+      max-width: 100%;
+    }
+
     .test-config-label {
       font-size: 12px;
       font-weight: 600;
@@ -259,16 +270,58 @@
     }
 
     .test-count-input {
-      width: 180px;
-      max-width: 100%;
+      width: 100%;
       height: 34px;
       border: 1px solid #cbd5e1;
       border-radius: 8px;
       background: #ffffff;
       color: #0f172a;
       font-size: 13px;
-      padding: 0 10px;
+      padding: 0 34px 0 10px;
       outline: none;
+      appearance: textfield;
+      -moz-appearance: textfield;
+    }
+
+    .test-count-input::-webkit-outer-spin-button,
+    .test-count-input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    .count-stepper {
+      position: absolute;
+      right: 4px;
+      top: 4px;
+      bottom: 4px;
+      width: 24px;
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      gap: 2px;
+    }
+
+    .count-step-btn {
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+      background: #f8fafc;
+      color: #334155;
+      font-size: 10px;
+      line-height: 1;
+      padding: 0;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+    }
+
+    .count-step-btn:hover:not(:disabled) {
+      background: #eef2ff;
+      border-color: #93c5fd;
+      color: #1d4ed8;
+    }
+
+    .count-step-btn:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
     }
 
     .test-count-input:focus {
@@ -442,10 +495,9 @@
       position: relative;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      grid-template-rows: minmax(0, 1fr) 96px;
+      grid-template-rows: minmax(0, 1fr);
       grid-template-areas:
-        "centralized distributed"
-        "comparison comparison";
+        "centralized distributed";
       gap: 10px;
       min-height: 0;
       align-items: stretch;
@@ -650,6 +702,10 @@
         width: 100%;
       }
 
+      .test-count-input-wrap {
+        width: 100%;
+      }
+
       .flow-label {
         font-size: 19px;
       }
@@ -662,12 +718,12 @@
 </head>
 <body>
   <main class="page">
-    <!-- 页面顶部区域：三列布局（左流程图 + 中间效率箭头 + 右流程图） -->
+    <!-- 页面顶部区域：三列布局（左流程�?+ 中间效率箭头 + 右流程图�?-->
     <section class="section hero-section">
       <div class="cert-hero">
-        <!-- 顶部左列：集中式认证流程图 + 优势说明 -->
+        <!-- 顶部左列：集中式认证流程�?+ 优势说明 -->
         <div class="hero-left-stack">
-          <!-- 左上：集中式身份认证流程图卡片 -->
+          <!-- 左上：集中式身份认证流程图卡�?-->
           <article class="hero-card hero-left">
             <h3 class="hero-tag">&#38598;&#20013;&#24335;&#36523;&#20221;&#35748;&#35777;</h3>
             <svg class="hero-diagram" viewBox="0 0 620 360" xmlns="http://www.w3.org/2000/svg" aria-label="集中式身份认证流程图">
@@ -680,63 +736,63 @@
                 </marker>
               </defs>
 
-              <ellipse cx="152" cy="236" rx="144" ry="118" fill="#efd9c8" /> <!-- 椭圆中心(152,236)，半径(rx=144, ry=118) -->
+              <ellipse cx="152" cy="236" rx="144" ry="118" fill="#efd9c8" /> <!-- 椭圆中心(152,236)，半�?rx=144, ry=118) -->
               <g stroke="#111" stroke-width="3" stroke-dasharray="10 8">
                 <line x1="170" y1="186" x2="85" y2="240" /> <!-- 连线起点(174,186) 终点(70,246) -->
                 <line x1="188" y1="206" x2="128" y2="290" /> <!-- 连线起点(188,206) 终点(120,314) -->
                 <line x1="210" y1="210" x2="220" y2="270" /> <!-- 连线起点(206,194) 终点(220,290) -->
               </g>
 
-              <image href="../assets/certification/icons/radio.png" x="168" y="156" width="58" height="58" /> <!-- 图标左上角(168,156)，尺寸58x58 -->
+              <image href="../assets/certification/icons/radio.png" x="168" y="156" width="58" height="58" /> <!-- 图标左上�?168,156)，尺�?8x58 -->
               <text x="166" y="152" font-size="16" fill="#111">&#25509;&#20837;&#28857;</text> <!-- 文本基线起点(166,152) -->
 
-              <image href="../assets/certification/icons/drone-m210.png" x="46" y="238" width="52" height="34" /> <!-- UAV-1图标左上角(46,238)，尺寸52x34 -->
+              <image href="../assets/certification/icons/drone-m210.png" x="46" y="238" width="52" height="34" /> <!-- UAV-1图标左上�?46,238)，尺�?2x34 -->
               <text x="48" y="286" font-size="17">UAV-1</text> <!-- UAV-1标签基线起点(48,286) -->
-              <image href="../assets/certification/icons/drone-m210.png" x="104" y="290" width="52" height="34" /> <!-- UAV-2图标左上角(104,290)，尺寸52x34 -->
+              <image href="../assets/certification/icons/drone-m210.png" x="104" y="290" width="52" height="34" /> <!-- UAV-2图标左上�?104,290)，尺�?2x34 -->
               <text x="110" y="338" font-size="17">UAV-2</text> <!-- UAV-2标签基线起点(110,338) -->
-              <image href="../assets/certification/icons/drone-m210.png" x="200" y="273" width="52" height="34" /> <!-- UAV-3图标左上角(200,273)，尺寸52x34 -->
+              <image href="../assets/certification/icons/drone-m210.png" x="200" y="273" width="52" height="34" /> <!-- UAV-3图标左上�?200,273)，尺�?2x34 -->
               <text x="206" y="321" font-size="17">UAV-3</text> <!-- UAV-3标签基线起点(206,321) -->
 
-              <image href="../assets/certification/icons/drone-quad.png" x="468" y="238" width="62" height="62" /> <!-- UAV-4图标左上角(468,238)，尺寸62x62 -->
+              <image href="../assets/certification/icons/drone-quad.png" x="468" y="238" width="62" height="62" /> <!-- UAV-4图标左上�?468,238)，尺�?2x62 -->
               <text x="474" y="319" font-size="17">UAV-4</text> <!-- UAV-4标签基线起点(474,309) -->
 
-              <image href="../assets/certification/icons/gov.png" x="220" y="10" width="56" height="56" /> <!-- 根CA1图标左上角(220,10)，尺寸56x56 -->
-              <image href="../assets/certification/icons/flag-red.png" x="268" y="29" width="16" height="16" /> <!-- 根CA1旗标左上角(268,29)，尺寸16x16 -->
+              <image href="../assets/certification/icons/gov.png" x="220" y="10" width="56" height="56" /> <!-- 根CA1图标左上�?220,10)，尺�?6x56 -->
+              <image href="../assets/certification/icons/flag-red.png" x="268" y="29" width="16" height="16" /> <!-- 根CA1旗标左上�?268,29)，尺�?6x16 -->
               <text x="286" y="56" font-size="16">&#26681;CA1</text> <!-- 根CA1文字基线起点(236,96) -->
 
-              <image href="../assets/certification/icons/gov.png" x="416" y="34" width="56" height="56" /> <!-- 根CA2图标左上角(416,34)，尺寸56x56 -->
-              <image href="../assets/certification/icons/flag-red.png" x="464" y="53" width="16" height="16" /> <!-- 根CA2旗标左上角(464,53)，尺寸16x16 -->
+              <image href="../assets/certification/icons/gov.png" x="416" y="34" width="56" height="56" /> <!-- 根CA2图标左上�?416,34)，尺�?6x56 -->
+              <image href="../assets/certification/icons/flag-red.png" x="464" y="53" width="16" height="16" /> <!-- 根CA2旗标左上�?464,53)，尺�?6x16 -->
               <text x="423" y="110" font-size="16">&#26681;CA2</text> <!-- 根CA2文字基线起点(406,114) -->
 
-              <image href="../assets/certification/icons/gov.png" x="468" y="118" width="52" height="52" /> <!-- 子CA2图标左上角(468,118)，尺寸52x52 -->
+              <image href="../assets/certification/icons/gov.png" x="468" y="118" width="52" height="52" /> <!-- 子CA2图标左上�?468,118)，尺�?2x52 -->
               <text x="466" y="192" font-size="16">&#23376;CA2</text> <!-- 子CA2文字基线起点(466,192) -->
 
               <g stroke="#ef7d2c" stroke-width="3.2" marker-end="url(#left-arrow-orange)">
-                <line x1="222" y1="162" x2="242" y2="71" /> <!-- 箭头线起点(222,162) 终点(232,56) -->
-                <line x1="222" y1="162" x2="410" y2="84" /> <!-- 箭头线起点(222,162) 终点(416,84) -->
-                <line x1="222" y1="162" x2="462" y2="152" /> <!-- 箭头线起点(222,162) 终点(462,152) -->
+                <line x1="222" y1="162" x2="242" y2="71" /> <!-- 箭头线起�?222,162) 终点(232,56) -->
+                <line x1="222" y1="162" x2="410" y2="84" /> <!-- 箭头线起�?222,162) 终点(416,84) -->
+                <line x1="222" y1="162" x2="462" y2="152" /> <!-- 箭头线起�?222,162) 终点(462,152) -->
               </g>
 
-              <rect x="196" y="93" width="118" height="32" rx="4" fill="#ffffff" opacity="0.96" /> <!-- step2底板左上角(236,124)，尺寸118x32 -->
+              <rect x="196" y="93" width="118" height="32" rx="4" fill="#ffffff" opacity="0.96" /> <!-- step2底板左上�?236,124)，尺�?18x32 -->
               <text x="202" y="105" font-size="11.2" fill="#d8671b">step3: &#35831;&#27714;&#39564;&#35777;</text> <!-- step3文案基线起点(202,118) -->
               <text x="202" y="120" font-size="11.2" fill="#d8671b">&#26681;CA2&#20132;&#21449;&#35777;&#20070;</text> <!-- step3补充文案基线起点(202,130) -->
 
-              <rect x="280" y="105" width="118" height="32" rx="4" fill="#ffffff" opacity="0.96" /> <!-- step2底板左上角(236,124)，尺寸118x32 -->
+              <rect x="280" y="105" width="118" height="32" rx="4" fill="#ffffff" opacity="0.96" /> <!-- step2底板左上�?236,124)，尺�?18x32 -->
               <text x="286" y="117" font-size="11.2" fill="#d8671b">step2: &#35831;&#27714;&#39564;&#35777;</text> <!-- step2文案基线起点(242,136) -->
               <text x="286" y="129" font-size="11.2" fill="#d8671b">&#23376;CA2&#35777;&#20070;</text> <!-- step2补充文案基线起点(242,148) -->
 
-              <rect x="318" y="150" width="89" height="32" rx="4" fill="#ffffff" opacity="0.96" /> <!-- step1底板左上角(318,154)，尺寸118x32 -->
+              <rect x="318" y="150" width="89" height="32" rx="4" fill="#ffffff" opacity="0.96" /> <!-- step1底板左上�?318,154)，尺�?18x32 -->
               <text x="324" y="157" font-size="11.2" fill="#d8671b">step1: &#35831;&#27714;&#39564;&#35777;</text> <!-- step1文案基线起点(324,166) -->
               <text x="324" y="169" font-size="11.2" fill="#d8671b">UAV-2&#35777;&#20070;</text> <!-- step1补充文案基线起点(324,178) -->
 
-              <line x1="228" y1="180" x2="460" y2="269" stroke="#3c74c9" stroke-width="3.4" marker-end="url(#left-arrow-blue)" /> <!-- 跨域认证线起点(212,220) 终点(476,264) -->
-              <text x="294" y="266" font-size="15" font-weight="600" fill="#111" transform="rotate(-8 294 266)">
+              <line x1="228" y1="180" x2="460" y2="269" stroke="#3c74c9" stroke-width="3.4" marker-end="url(#left-arrow-blue)" /> <!-- 跨域认证线起�?212,220) 终点(476,264) -->
+              <text x="328" y="212" font-size="15" font-weight="600" fill="#111" transform="rotate(21 328 222)">
                 &#36328;&#22495;&#35748;&#35777;
               </text>
             </svg>
           </article>
 
-          <!-- 左下：跨域认证优势文字说明 -->
+          <!-- 左下：跨域认证优势文字说�?-->
           <section class="hero-summary" aria-label="跨域认证优势说明">
             <p class="hero-summary-title">
               &#9654; &#22522;&#20110;&#21306;&#22359;&#38142;&#30340;&#39640;&#25928;&#36328;&#22495;&#35748;&#35777;
@@ -749,7 +805,7 @@
           </section>
         </div>
 
-        <!-- 顶部中列：效率提升箭头提示 -->
+        <!-- 顶部中列：效率提升箭头提�?-->
         <div class="hero-arrow" aria-hidden="true">
           <div class="hero-arrow-combo">
             <p class="hero-boost-badge">&#35748;&#35777;&#25928;&#29575;<br />&#22823;&#24133;&#25552;&#21319;</p>
@@ -776,65 +832,60 @@
               </marker>
             </defs>
 
-            <rect x="0" y="292" width="860" height="128" fill="#cfd8e1" /> <!-- Layer1底色左上角(0,292)，尺寸860x128 -->
-            <ellipse cx="232" cy="184" rx="232" ry="108" fill="#efd9c8" /> <!-- 椭圆中心(232,184)，半径(rx=232, ry=108)，左边界与外框对齐且底边贴齐Layer1分界线 -->
+            <rect x="0" y="312" width="860" height="158" fill="#cfd8e1" /> <!-- Layer1底色左上�?0,292)，尺�?60x128 -->
+            <ellipse cx="232" cy="148" rx="212" ry="130" fill="#efd9c8" /> <!-- 椭圆中心(232,184)，半�?rx=232, ry=108)，左边界与外框对齐且底边贴齐Layer1分界�?-->
 
-            <text x="20" y="34" font-size="20" font-weight="700">Layer 2 &#26080;&#20154;&#26426;</text> <!-- Layer2标题基线起点(20,34) -->
+            <text x="20" y="10" font-size="20" font-weight="700">Layer 2 &#26080;&#20154;&#26426;</text> <!-- Layer2标题基线起点(20,34) -->
 
             <g stroke="#111" stroke-width="3" stroke-dasharray="10 8">
-              <line x1="272" y1="160" x2="146" y2="106" /> <!-- 连线起点(272,160) 终点(146,106) -->
-              <line x1="300" y1="206" x2="118" y2="220" /> <!-- 连线起点(300,206) 终点(118,220) -->
-              <line x1="326" y1="172" x2="402" y2="226" /> <!-- 连线起点(326,172) 终点(402,226) -->
+              <line x1="252" y1="120" x2="172" y2="83" /> <!-- 连线起点(272,160) 终点(146,106) -->
+              <line x1="260" y1="160" x2="148" y2="190" /> <!-- 连线起点(300,206) 终点(118,220) -->
+              <line x1="336" y1="158" x2="372" y2="176" /> <!-- 连线起点(326,172) 终点(402,226) -->
             </g>
-            <image href="../assets/certification/icons/radio.png" x="268" y="148" width="58" height="58" /> <!-- 接入点图标左上角(268,148)，尺寸58x58 -->
-            <text x="274" y="158" font-size="14">&#25509;&#20837;&#28857;</text> <!-- 接入点文字基线起点(274,158) -->
+            <image href="../assets/certification/icons/radio.png" x="258" y="108" width="78" height="78" /> <!-- 接入点图标左上角(268,148)，尺�?8x58 -->
+            <text x="278" y="98" font-size="14">&#25509;&#20837;&#28857;</text> <!-- 接入点文字基线起�?274,158) -->
 
-            <image href="../assets/certification/icons/drone-m210.png" x="112" y="104" width="58" height="36" /> <!-- UAV-1图标左上角(112,104)，尺寸58x36 -->
-            <text x="114" y="83" font-size="16">UAV-1</text> <!-- UAV-1标签基线起点(114,83) -->
-            <image href="../assets/certification/icons/drone-m210.png" x="94" y="218" width="58" height="36" /> <!-- UAV-2图标左上角(94,218)，尺寸58x36 -->
-            <text x="96" y="250" font-size="16">UAV-2</text> <!-- UAV-2标签基线起点(96,250) -->
-            <image href="../assets/certification/icons/drone-m210.png" x="402" y="214" width="58" height="36" /> <!-- UAV-3图标左上角(402,214)，尺寸58x36 -->
-            <text x="392" y="198" font-size="16">UAV-3</text> <!-- UAV-3标签基线起点(392,198) -->
+            <image href="../assets/certification/icons/drone-m210.png" x="112" y="64" width="70" height="43" /> <!-- UAV-1图标左上�?112,104)，尺�?8x36 -->
+            <text x="116" y="56" font-size="16">UAV-1</text> <!-- UAV-1标签基线起点(114,83) -->
+            <image href="../assets/certification/icons/drone-m210.png" x="84" y="168" width="70" height="43" /> <!-- UAV-2图标左上�?94,218)，尺�?8x36 -->
+            <text x="96" y="230" font-size="16">UAV-2</text> <!-- UAV-2标签基线起点(96,250) -->
+            <image href="../assets/certification/icons/drone-m210.png" x="372" y="164" width="70" height="43" /> <!-- UAV-3图标左上�?402,214)，尺�?8x36 -->
+            <text x="383" y="160" font-size="16">UAV-3</text> <!-- UAV-3标签基线起点(392,198) -->
 
-            <image href="../assets/certification/icons/drone-quad.png" x="586" y="106" width="66" height="66" /> <!-- UAV-4图标左上角(586,106)，尺寸66x66 -->
-            <text x="592" y="86" font-size="16">UAV-4</text> <!-- UAV-4标签基线起点(592,86) -->
-            <line x1="330" y1="168" x2="618" y2="138" stroke="#3c74c9" stroke-width="3.8" marker-end="url(#right-arrow-blue)" /> <!-- 跨域认证线起点(330,168) 终点(618,138) -->
-            <text x="410" y="120" font-size="16" font-weight="700" transform="rotate(-13 410 120)">
+            <image href="../assets/certification/icons/drone-quad.png" x="546" y="36" width="66" height="66" /> <!-- UAV-4图标左上�?586,106)，尺�?6x66 -->
+            <text x="552" y="26" font-size="16">UAV-4</text> <!-- UAV-4标签基线起点(592,86) -->
+            <line x1="340" y1="135" x2="530" y2="78" stroke="#3c74c9" stroke-width="3.8" marker-end="url(#right-arrow-blue)" /> <!-- 跨域认证线起�?330,168) 终点(618,138) -->
+            <text x="430" y="102" font-size="16" font-weight="700" transform="rotate(-17 430 112)">
               &#36328;&#22495;&#35748;&#35777;
             </text>
 
-            <image href="../assets/certification/icons/gov.png" x="734" y="130" width="50" height="50" /> <!-- 子CA2图标左上角(734,130)，尺寸50x50 -->
-            <text x="744" y="206" font-size="15">&#23376;CA2</text> <!-- 子CA2文字基线起点(744,206) -->
-            <image href="../assets/certification/icons/gov.png" x="636" y="226" width="50" height="50" /> <!-- 根CA2图标左上角(636,226)，尺寸50x50 -->
-            <image href="../assets/certification/icons/flag-red.png" x="680" y="244" width="12" height="12" /> <!-- 根CA2旗标左上角(680,244)，尺寸12x12 -->
-            <text x="638" y="296" font-size="15">&#26681;CA2</text> <!-- 根CA2文字基线起点(638,296) -->
-            <line x1="734" y1="160" x2="684" y2="148" stroke="#7a7a7a" stroke-width="2.8" marker-end="url(#right-arrow-gray)" /> <!-- 灰色连线起点(734,160) 终点(684,148) -->
-            <line x1="734" y1="208" x2="698" y2="252" stroke="#7a7a7a" stroke-width="2.8" marker-end="url(#right-arrow-gray)" /> <!-- 灰色连线起点(734,208) 终点(698,252) -->
-            <rect x="662" y="182" width="74" height="34" rx="4" fill="#ffffff" opacity="0.96" /> <!-- 说明框左上角(662,182)，尺寸74x34 -->
-            <text x="666" y="196" font-size="12.6" fill="#333">&#39041;&#21457;/&#25764;&#38144;</text> <!-- 说明文字1基线起点(666,196) -->
-            <text x="690" y="210" font-size="12.6" fill="#333">&#35777;&#20070;</text> <!-- 说明文字2基线起点(690,210) -->
-            <image href="../assets/certification/icons/cert-green.png" x="760" y="258" width="30" height="30" /> <!-- 证书图标左上角(760,258)，尺寸30x30 -->
-            <text x="790" y="270" font-size="12.5" fill="#374151">&#35777;&#20070;&#31649;&#29702;</text> <!-- 合约说明文字1基线起点(790,270) -->
-            <text x="790" y="286" font-size="12.5" fill="#374151">&#26234;&#33021;&#21512;&#32422;</text> <!-- 合约说明文字2基线起点(790,286) -->
-            <line x1="746" y1="316" x2="746" y2="286" stroke="#1f2937" stroke-width="2.6" marker-end="url(#right-arrow-dark)" /> <!-- 深色箭头线起点(746,316) 终点(746,286) -->
-            <line x1="764" y1="286" x2="764" y2="316" stroke="#1f2937" stroke-width="2.6" marker-end="url(#right-arrow-dark)" /> <!-- 深色箭头线起点(764,286) 终点(764,316) -->
+            <image href="../assets/certification/icons/gov.png" x="714" y="30" width="70" height="70" /> <!-- 子CA2图标左上�?734,130)，尺�?0x50 -->
+            <text x="729" y="116" font-size="15">&#23376;CA2</text> <!-- 子CA2文字基线起点(744,206) -->
+            <image href="../assets/certification/icons/gov.png" x="636" y="166" width="70" height="70" /> <!-- 根CA2图标左上�?636,226)，尺�?0x50 -->
+            <image href="../assets/certification/icons/flag-red.png" x="695" y="200" width="17" height="17" /> <!-- 根CA2旗标左上�?680,244)，尺�?2x12 -->
+            <text x="648" y="256" font-size="15">&#26681;CA2</text> <!-- 根CA2文字基线起点(638,296) -->
+            <line x1="704" y1="70" x2="618" y2="62" stroke="#7a7a7a" stroke-width="2.8" marker-end="url(#right-arrow-gray)" /> <!-- 灰色连线起点(734,160) 终点(684,148) -->
+            <line x1="734" y1="128" x2="698" y2="168" stroke="#7a7a7a" stroke-width="2.8" marker-end="url(#right-arrow-gray)" /> <!-- 灰色连线起点(734,208) 终点(698,252) -->
+            <text x="646" y="136" font-size="12.6" fill="#333">&#39041;&#21457;/&#25764;&#38144;</text> <!-- 说明文字1基线起点(666,196) -->
+            <text x="670" y="150" font-size="12.6" fill="#333">&#35777;&#20070;</text> <!-- 说明文字2基线起点(690,210) -->
+            <image href="../assets/certification/icons/cert-green.png" x="700" y="268" width="30" height="30" /> <!-- 证书图标左上�?760,258)，尺�?0x30 -->
+            <text x="735" y="275" font-size="12.5" fill="#374151">&#35777;&#20070;&#31649;&#29702;</text> <!-- 合约说明文字1基线起点(790,270) -->
+            <text x="735" y="291" font-size="12.5" fill="#374151">&#26234;&#33021;&#21512;&#32422;</text> <!-- 合约说明文字2基线起点(790,286) -->
+            <line x1="686" y1="336" x2="686" y2="265" stroke="#1f2937" stroke-width="2.6" marker-end="url(#right-arrow-dark)" /> <!-- 深色箭头线起�?746,316) 终点(746,286) -->
+            <line x1="664" y1="265" x2="664" y2="336" stroke="#1f2937" stroke-width="2.6" marker-end="url(#right-arrow-dark)" /> <!-- 深色箭头线起�?764,286) 终点(764,316) -->
 
-            <image href="../assets/certification/icons/cert-blue.png" x="352" y="236" width="30" height="30" /> <!-- 链上请求图标左上角(352,236)，尺寸30x30 -->
-            <text x="390" y="258" font-size="14.5">&#38142;&#19978;&#35748;&#35777;&#35831;&#27714;</text> <!-- 链上请求文字基线起点(390,258) -->
+            <image href="../assets/certification/icons/cert-blue.png" x="332" y="280" width="30" height="30" /> <!-- 链上请求图标左上�?352,236)，尺�?0x30 -->
+            <text x="370" y="298" font-size="14.5">&#38142;&#19978;&#35748;&#35777;&#35831;&#27714;</text> <!-- 链上请求文字基线起点(390,258) -->
             <g stroke="#ef7d2c" stroke-width="3" marker-end="url(#right-arrow-orange)">
-              <line x1="286" y1="274" x2="286" y2="216" /> <!-- 橙色箭头线起点(286,274) 终点(286,216) -->
-              <line x1="312" y1="216" x2="312" y2="274" /> <!-- 橙色箭头线起点(312,216) 终点(312,274) -->
+              <line x1="286" y1="324" x2="286" y2="196" /> <!-- 橙色箭头线起�?286,274) 终点(286,216) -->
+              <line x1="312" y1="196" x2="312" y2="324" /> <!-- 橙色箭头线起�?312,216) 终点(312,274) -->
             </g>
-            <rect x="206" y="220" width="72" height="34" rx="4" fill="#ffffff" opacity="0.96" /> <!-- 结果框左上角(206,220)，尺寸72x34 -->
-            <text x="212" y="236" font-size="13.6">&#36820;&#22238;&#35748;</text> <!-- 结果文字1基线起点(212,236) -->
-            <text x="212" y="250" font-size="13.6">&#35777;&#32467;&#26524;</text> <!-- 结果文字2基线起点(212,250) -->
+            <text x="232" y="256" font-size="13.6">&#36820;&#22238;&#35748;</text> <!-- 结果文字1基线起点(212,236) -->
+            <text x="232" y="270" font-size="13.6">&#35777;&#32467;&#26524;</text> <!-- 结果文字2基线起点(212,250) -->
 
-            <image href="../assets/blockchain.png" x="138" y="338" width="626" height="78" preserveAspectRatio="xMidYMid meet" /> <!-- 区块链底图左上角(138,338)，尺寸626x78 -->
-            <rect x="744" y="326" width="66" height="26" rx="5" fill="none" stroke="#111827" stroke-width="1.8" stroke-dasharray="6 4" /> <!-- 证书框左上角(744,326)，尺寸66x26 -->
-            <image href="../assets/certification/icons/cert-blue.png" x="750" y="328" width="18" height="18" /> <!-- 蓝证书图标左上角(750,328)，尺寸18x18 -->
-            <image href="../assets/certification/icons/cert-green.png" x="772" y="328" width="18" height="18" /> <!-- 绿证书图标左上角(772,328)，尺寸18x18 -->
-            <text x="20" y="334" font-size="20" font-weight="700">Layer 1 &#20027;&#38142;</text> <!-- Layer1标题基线起点(20,334) -->
-            <text x="20" y="358" font-size="16">&#20027;&#38142;&#33410;&#28857;</text> <!-- Layer1说明基线起点(20,358) -->
+            <image href="../assets/blockchain.png" x="50" y="338" width="845" height="105" preserveAspectRatio="xMidYMid meet" /> <!-- 区块链底图左上角(138,338)，尺�?26x78 -->
+            <text x="20" y="344" font-size="20" font-weight="700">Layer 1 &#20027;&#38142;</text> <!-- Layer1标题基线起点(20,334) -->
+            <text x="20" y="368" font-size="16">&#20027;&#38142;&#33410;&#28857;</text> <!-- Layer1说明基线起点(20,358) -->
           </svg>
         </article>
       </div>
@@ -846,51 +897,57 @@
       <div class="bottom-layout">
         <!-- 底部左栏：按钮区 + 参数输入 + 动态流程图 -->
         <div class="left-panel">
-          <!-- 左栏顶部：操作按钮横排 -->
+          <!-- 左栏顶部：操作按钮横�?-->
           <div class="mode-buttons">
             <button class="mode-btn start-btn" type="button" id="start-test-btn">环境初始化</button>
             <button class="mode-btn" type="button" data-mode="distributed" id="distributed-btn">分布式认证</button>
             <button class="mode-btn" type="button" data-mode="centralized" id="centralized-btn">集中式认证</button>
           </div>
 
-          <!-- 左栏中部：认证次数输入 -->
           <div class="test-config">
             <label class="test-config-label" for="sample-count-input">认证次数（可选）</label>
-            <input
-              class="test-count-input"
-              id="sample-count-input"
-              type="text"
-              inputmode="numeric"
-              placeholder="留空=10，范围1-100"
-              aria-label="认证次数"
-            />
+            <div class="test-count-input-wrap">
+              <input
+                class="test-count-input"
+                id="sample-count-input"
+                type="number"
+                inputmode="numeric"
+                min="5"
+                max="100"
+                step="1"
+                placeholder="留空=10，范围5-100"
+                aria-label="认证次数"
+              />
+              <div class="count-stepper" aria-hidden="true">
+                <button class="count-step-btn" id="sample-count-up" type="button" tabindex="-1">&#9650;</button>
+                <button class="count-step-btn" id="sample-count-down" type="button" tabindex="-1">&#9660;</button>
+              </div>
+            </div>
           </div>
 
-          <!-- 左栏主体：认证流程动画（从左到右分支） -->
           <div class="flow-wrap">
             <svg class="flow-svg" viewBox="0 0 900 320" xmlns="http://www.w3.org/2000/svg" aria-label="认证流程图">
-              <path class="flow-base" d="M50 175 L375 175" /> <!-- 基础主干路径：起点(50,175) 到(375,175) -->
-              <path class="flow-base" d="M375 175 C455 175 455 95 560 95 L700 95" /> <!-- 上分支路径：从(375,175)经控制点到(700,95) -->
-              <path class="flow-base" d="M375 175 C455 175 455 255 560 255 L700 255" /> <!-- 下分支路径：从(375,175)经控制点到(700,255) -->
+              <path class="flow-base" d="M50 175 L375 175" />
+              <path class="flow-base" d="M375 175 C455 175 455 95 560 95 L700 95" />
+              <path class="flow-base" d="M375 175 C455 175 455 255 560 255 L700 255" />
 
-              <path id="active-seg-1" class="flow-active" d="M50 175 L190 175" /> <!-- 动画段1：起点(50,175) 到(190,175) -->
-              <path id="active-seg-2" class="flow-active" d="M190 175 L375 175" /> <!-- 动画段2：起点(190,175) 到(375,175) -->
-              <path id="active-seg-top" class="flow-active" d="M375 175 C455 175 455 95 560 95 L700 95" /> <!-- 动画上分支：从(375,175)到(700,95) -->
-              <path id="active-seg-bottom" class="flow-active" d="M375 175 C455 175 455 255 560 255 L700 255" /> <!-- 动画下分支：从(375,175)到(700,255) -->
+              <path id="active-seg-1" class="flow-active" d="M50 175 L190 175" />
+              <path id="active-seg-2" class="flow-active" d="M190 175 L375 175" />
+              <path id="active-seg-top" class="flow-active" d="M375 175 C455 175 455 95 560 95 L700 95" />
+              <path id="active-seg-bottom" class="flow-active" d="M375 175 C455 175 455 255 560 255 L700 255" />
 
-              <circle id="node-issue" class="flow-node" cx="190" cy="175" r="10" /> <!-- 节点中心(190,175)，半径10 -->
-              <circle id="node-request" class="flow-node" cx="375" cy="175" r="10" /> <!-- 节点中心(375,175)，半径10 -->
-              <circle id="node-distributed" class="flow-node" cx="700" cy="95" r="10" /> <!-- 节点中心(700,95)，半径10 -->
-              <circle id="node-centralized" class="flow-node" cx="700" cy="255" r="10" /> <!-- 节点中心(700,255)，半径10 -->
+              <circle id="node-issue" class="flow-node" cx="190" cy="175" r="10" />
+              <circle id="node-request" class="flow-node" cx="375" cy="175" r="10" />
+              <circle id="node-distributed" class="flow-node" cx="700" cy="95" r="10" />
+              <circle id="node-centralized" class="flow-node" cx="700" cy="255" r="10" />
 
-              <text class="flow-label" x="125" y="225">证书颁发</text> <!-- 标签基线起点(125,225) -->
-              <text class="flow-label" x="260" y="225">无人机认证请求</text> <!-- 标签基线起点(260,225) -->
-              <text class="flow-label-small" x="560" y="80">分布式认证</text> <!-- 标签基线起点(560,80) -->
-              <text class="flow-label-small" x="560" y="286">集中式认证</text> <!-- 标签基线起点(560,286) -->
+              <text class="flow-label" x="125" y="225">证书颁发</text>
+              <text class="flow-label" x="260" y="225">无人机认证请求</text>
+              <text class="flow-label-small" x="560" y="80">分布式认证</text>
+              <text class="flow-label-small" x="560" y="286">集中式认证</text>
             </svg>
           </div>
 
-          <!-- 左栏底部：流程状态提示文本 -->
           <p class="flow-status" id="flow-status" style="display:none;">点击“开始测试”初始化流程</p>
         </div>
 
@@ -922,10 +979,9 @@
           <div class="comparison-overlay" id="comparison-overlay">
             <p class="comparison-text" id="comparison-text"></p>
             <svg class="comparison-arrow" viewBox="0 0 170 28" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <rect x="0" y="7" width="148" height="14" fill="#dc2626"></rect> <!-- 箭身左上角(0,7)，尺寸148x14 -->
+              <rect x="0" y="7" width="148" height="14" fill="#dc2626"></rect> <!-- 箭身左上�?0,7)，尺�?48x14 -->
               <polygon points="148,0 170,14 148,28" fill="#dc2626"></polygon> <!-- 箭头三点坐标(148,0) (170,14) (148,28) -->
             </svg>
-            <p class="comparison-text" id="comparison-text"></p>
           </div>
 
           <!-- 右栏右侧：分布式认证日志 -->
@@ -942,7 +998,7 @@
   <script>
     (function () {
       const DEFAULT_SAMPLE_COUNT = 10;
-      const MIN_SAMPLE_COUNT = 1;
+      const MIN_SAMPLE_COUNT = 5;
       const MAX_SAMPLE_COUNT = 100;
       const NODE_BASE_R = 10;
       const NODE_ACTIVE_R = 17;
@@ -961,6 +1017,8 @@
       const distributedBtn = document.getElementById('distributed-btn');
       const centralizedBtn = document.getElementById('centralized-btn');
       const sampleCountInput = document.getElementById('sample-count-input');
+      const sampleCountUpBtn = document.getElementById('sample-count-up');
+      const sampleCountDownBtn = document.getElementById('sample-count-down');
 
       const statusEl = document.getElementById('flow-status');
       const distributedMetricsEl = document.getElementById('distributed-metrics');
@@ -1096,19 +1154,53 @@
         }
 
         if (!/^\d+$/.test(raw)) {
-          setStatus('输入错误：总测试次数必须为整数（1-100）');
-          appendLog(mode, '[测试控制器] 输入错误：总测试次数必须为整数（1-100）。');
+          setStatus('输入错误：总测试次数必须为整数（5-100）。');
+          appendLog(mode, '[测试控制器] 输入错误：总测试次数必须为整数（5-100）。');
           return null;
         }
 
         const value = Number(raw);
         if (value < MIN_SAMPLE_COUNT || value > MAX_SAMPLE_COUNT) {
-          setStatus('输入错误：总测试次数范围应为 1-100');
-          appendLog(mode, '[测试控制器] 输入错误：总测试次数范围应为 1-100。');
+          setStatus('输入错误：总测试次数范围应为 5-100。');
+          appendLog(mode, '[测试控制器] 输入错误：总测试次数范围应为 5-100。');
           return null;
         }
 
         return value;
+      }
+
+      function clampSampleCount(value) {
+        return Math.min(MAX_SAMPLE_COUNT, Math.max(MIN_SAMPLE_COUNT, value));
+      }
+
+      function getStepperBaseCount() {
+        const raw = sampleCountInput.value.trim();
+        if (raw === '') {
+          return DEFAULT_SAMPLE_COUNT;
+        }
+        const parsed = Number(raw);
+        if (!Number.isFinite(parsed)) {
+          return DEFAULT_SAMPLE_COUNT;
+        }
+        return clampSampleCount(Math.round(parsed));
+      }
+
+      function adjustSampleCount(delta) {
+        if (sampleCountInput.disabled) {
+          return;
+        }
+        const nextValue = clampSampleCount(getStepperBaseCount() + delta);
+        sampleCountInput.value = String(nextValue);
+      }
+
+      function restoreSampleCountInput() {
+        sampleCountInput.value = '';
+        sampleCountInput.defaultValue = '';
+        sampleCountInput.placeholder = '留空=10，范围5-100';
+        sampleCountInput.blur();
+        window.setTimeout(() => {
+          sampleCountInput.value = '';
+        }, 0);
       }
 
       function hideComparison() {
@@ -1139,11 +1231,11 @@
 
         if (state.distributed.targetCount !== state.centralized.targetCount) {
           hideComparison();
-          setStatus('样本数不一致，无法对比，请重新测试并保持一致');
+          setStatus('样本数不一致，无法对比，请重新测试并保持一致。');
           appendBothLogs(
-            '[对比结果] 样本数不一致（分布式' +
+            '[对比结果] 样本数不一致（分布式 ' +
               state.distributed.targetCount +
-              '次，集中式' +
+              '次，集中式 ' +
               state.centralized.targetCount +
               '次），无法计算效率提升。'
           );
@@ -1158,6 +1250,12 @@
         const busy = state.runningMode !== null;
         startBtn.disabled = busy;
         sampleCountInput.disabled = busy;
+        if (sampleCountUpBtn) {
+          sampleCountUpBtn.disabled = busy;
+        }
+        if (sampleCountDownBtn) {
+          sampleCountDownBtn.disabled = busy;
+        }
 
         const distDisabled = !state.session.started || busy || state.distributed.done;
         const centDisabled = !state.session.started || busy || state.centralized.done;
@@ -1270,7 +1368,7 @@
         if (!okNode) return;
 
         appendBothLogs('[区块链系统服务组件] 执行链上证书查询，证书记录一致性校验通过。');
-        setStatus('步骤1完成：可手动触发“分布式认证”或“集中式认证”测试');
+        setStatus('步骤1完成：可手动触发“分布式认证”或“集中式认证”测试。');
 
         state.runningMode = null;
         setButtonsState();
@@ -1372,7 +1470,7 @@
 
           appendLog(
             mode,
-            '[区块链系统服务组件] 第' + i + '次认证时延=' + formatSeconds(latency) + 's，已完成统计。'
+            '[区块链系统服务组件] 第' + i + '次认证时延 ' + formatSeconds(latency) + 's，已完成统计。'
           );
         }
 
@@ -1387,12 +1485,13 @@
         state.runningMode = null;
         updateMetricsPanel();
 
-        appendLog(mode, '[统计结果] ' + modeLabel + '平均时延=' + formatSeconds(avg) + 's（样本' + targetCount + '次）。');
+        appendLog(mode, '[统计结果] ' + modeLabel + '平均时延=' + formatSeconds(avg) + 's（样本 ' + targetCount + '次）。');
         setStatus(modeLabel + '完成，等待另一方案完成后自动计算效率提升。');
 
         handleComparisonResult();
 
         setButtonsState();
+        restoreSampleCountInput();
       }
 
       function resetSessionData() {
@@ -1428,6 +1527,18 @@
         });
       });
 
+      if (sampleCountUpBtn) {
+        sampleCountUpBtn.addEventListener('click', () => {
+          adjustSampleCount(1);
+        });
+      }
+
+      if (sampleCountDownBtn) {
+        sampleCountDownBtn.addEventListener('click', () => {
+          adjustSampleCount(-1);
+        });
+      }
+
       resetFlow();
       clearLogs();
       hideComparison();
@@ -1437,3 +1548,6 @@
   </script>
 </body>
 </html>
+
+
+
