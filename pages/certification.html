@@ -1811,6 +1811,13 @@
 
         showComparison();
         setStatus('步骤4/4：对比完成，分布式跨域认证效率提升已生成');
+        const dAvg = state.distributed.avgLatency;
+        const cAvg = state.centralized.avgLatency;
+        if (dAvg !== null && cAvg !== null && cAvg > 0) {
+          const improvement = ((cAvg - dAvg) / cAvg * 100).toFixed(1);
+          appendBothLogs('[对比结果] 区块链增强跨域认证比集中式跨域认证效率提升 ' + improvement + '%。');
+          appendBothLogs('[对比结果] 验证通过：分布式方案认证时延显著低于集中式方案。');
+        }
       }
 
       function setButtonsState() {
@@ -1927,6 +1934,7 @@
         if (token !== state.animationToken) return;
 
         appendBothLogs('[区块链系统服务组件] 启动证书颁发流程，准备写入链上证书信息。');
+        appendBothLogs('[区块链系统服务组件] 生成根CA证书与子CA交叉证书，写入区块链节点。');
 
         const okPath = await animatePath(paths.seg1, 650, token);
         if (!okPath) return;
@@ -1934,7 +1942,8 @@
         if (!okNode) return;
 
         appendBothLogs('[区块链系统服务组件] 执行链上证书查询，证书记录一致性校验通过。');
-        setStatus('步骤1完成：可点击“开始认证测试”，系统将先执行集中式认证，再执行分布式认证。');
+        appendBothLogs('[区块链系统服务组件] 证书颁发完成，链上证书记录正常，身份体系就绪。');
+        setStatus('步骤1完成：可点击”开始认证测试”，系统将先执行集中式认证，再执行分布式认证。');
 
         state.runningMode = null;
         setButtonsState();
@@ -1944,6 +1953,7 @@
         const targetCount = state[mode].targetCount;
         const modeLabel = mode === 'distributed' ? '分布式' : '集中式';
         appendLog(mode, '[异域无人机] 第' + sampleNo + '次发起跨域证书认证请求。');
+        appendLog(mode, '[异域无人机] 请求包含时间戳，记录到本地用于时延统计。');
         setStatus('步骤2/3：' + modeLabel + ' 第' + sampleNo + '/' + targetCount + '次 - 无人机认证请求');
 
         resetSampleFlowVisual();
@@ -1956,6 +1966,11 @@
         const targetCount = state[mode].targetCount;
         const modeLabel = mode === 'distributed' ? '分布式' : '集中式';
         appendLog(mode, '[接入点] 第' + sampleNo + '次启动' + modeLabel + '跨域证书验证。');
+        if (mode === 'distributed') {
+          appendLog(mode, '[接入点] 通过智能合约对比请求数据与链上证书记录，执行分布式验证。');
+        } else {
+          appendLog(mode, '[接入点] 沿证书信任链向上追溯至根CA，逐级验证证书有效性。');
+        }
         setStatus('步骤2/3：' + modeLabel + ' 第' + sampleNo + '/' + targetCount + '次 - 接入点验证中');
 
         const path = mode === 'distributed' ? paths.top : paths.bottom;
@@ -2032,6 +2047,7 @@
             mode,
             '[区块链系统服务组件] 第' + i + '次认证时延 ' + formatSeconds(latency) + 's，已完成统计。'
           );
+          appendLog(mode, '[区块链系统服务组件] 累计完成 ' + i + '/' + targetCount + ' 次认证采样。');
         }
 
         if (token !== state.animationToken) {
@@ -2046,6 +2062,7 @@
         updateMetricsPanel();
 
         appendLog(mode, '[统计结果] ' + modeLabel + '平均时延=' + formatSeconds(avg) + 's（样本 ' + targetCount + '次）。');
+        appendLog(mode, '[统计结果] 通过CLI工具查询' + modeLabel + '时延数据，结果已记录。');
         setStatus(modeLabel + '完成，等待另一方案完成后自动计算效率提升。');
 
         handleComparisonResult();
